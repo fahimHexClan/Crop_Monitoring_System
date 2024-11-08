@@ -1,9 +1,25 @@
 package lk.ijse.Crop_monitoring_system.Entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 import java.util.List;
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 
+@Entity
+@Table(name = "Staff")
 public class StaffEntity {
+    @Id
+    @Column(name = "staff_id" , length = 45)
+
     private String StaffId;
     private String FirstName;
     private String LastName;
@@ -19,8 +35,8 @@ public class StaffEntity {
     private String ContactNo;
     private String Email;
     private String Role;
-    private List Field;
-    private List Vehicle;
+    private String Field;
+    private String Vehicle;
 
 
 

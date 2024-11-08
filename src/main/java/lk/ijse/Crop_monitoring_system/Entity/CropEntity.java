@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Crop")
 public class CropEntity {
     @Id
-    @Column(name = "field_id" , length = 45)
+    @Column(name = "Crop_id" , length = 45)
     private String Cropcode;
 
     private String CropCommonName;

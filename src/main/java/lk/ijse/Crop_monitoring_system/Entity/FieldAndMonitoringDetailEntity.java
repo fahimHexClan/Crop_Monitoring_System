@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 @Data
 
 @Entity
-@Table(name = "Crop_And_Monitoring_Details")
-public class CropAndMonitoringDetails {
+@Table(name = "FieldAndMonitoringDetailEntity")
+public class FieldAndMonitoringDetailEntity {
     @Id
-    @Column(name = "Crop_And_Monitoring_id" , length = 45)
+    @Column(name = "Field_And_Monitoring_id" , length = 45)
 
-    private String CropAndMonitoringDetailsId;
+    private String FieldAndMonitoringDetailId;
 }
