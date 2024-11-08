@@ -18,7 +18,7 @@ public class FieldDto {
     private Double ExtentSizeOfTheField;
    /* private List<> crops;
     private Staff<> staff;
-    private LongText FieldImage1;
-    private Longtext FieldImage2;*/
+    private String FieldImage1;
+    private String FieldImage2;*/
 
 }
