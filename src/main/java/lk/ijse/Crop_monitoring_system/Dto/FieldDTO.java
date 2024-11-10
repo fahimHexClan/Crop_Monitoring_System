@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.awt.*;
 import java.util.List;
 
 @AllArgsConstructor
@@ -12,15 +11,13 @@ import java.util.List;
 @Data
 
 public class FieldDTO {
-    private Long id;
-    private String fieldCode;
+    private Long FieldId;
     private String fieldName;
-    private String location;
+    private String location;//String to Dto and Point Data type entity
     private Double extentSize;
-    private String fieldImage1;
-    private String fieldImage2;
-
-    private java.util.List<CropDTO> crops; // List of CropDTOs
-    private List<StaffDTO> staff; // List of StaffDTOs
+    private byte[] fieldImage1;
+    private byte[] fieldImage2;
+    private List<CropDTO> crops; // Crops associated with this field
+    private List<StaffDTO> staff; // Staff assigned to t
 
 }
