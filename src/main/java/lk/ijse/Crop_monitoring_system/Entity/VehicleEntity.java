@@ -1,14 +1,12 @@
 package lk.ijse.Crop_monitoring_system.Entity;
 
 import jakarta.persistence.*;
-import lk.ijse.Crop_monitoring_system.util.FuelType;
-import lk.ijse.Crop_monitoring_system.util.VehicleCategory;
-import lk.ijse.Crop_monitoring_system.util.VehicleStatus;
+import lk.ijse.Crop_monitoring_system.Entity.Enums.FuelType;
+import lk.ijse.Crop_monitoring_system.Entity.Enums.VehicleCategory;
+import lk.ijse.Crop_monitoring_system.Entity.Enums.VehicleStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor

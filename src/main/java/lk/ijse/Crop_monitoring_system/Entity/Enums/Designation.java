@@ -1,4 +1,4 @@
-package lk.ijse.Crop_monitoring_system.util;
+package lk.ijse.Crop_monitoring_system.Entity.Enums;
 
 public enum Designation {
     MANAGER,

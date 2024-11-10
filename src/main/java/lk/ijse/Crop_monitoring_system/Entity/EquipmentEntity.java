@@ -1,8 +1,8 @@
 package lk.ijse.Crop_monitoring_system.Entity;
 
 import jakarta.persistence.*;
-import lk.ijse.Crop_monitoring_system.util.EquipmentStatus;
-import lk.ijse.Crop_monitoring_system.util.EquipmentType;
+import lk.ijse.Crop_monitoring_system.Entity.Enums.EquipmentStatus;
+import lk.ijse.Crop_monitoring_system.Entity.Enums.EquipmentType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

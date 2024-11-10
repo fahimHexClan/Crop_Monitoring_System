@@ -1,6 +1,6 @@
 package lk.ijse.Crop_monitoring_system.Dto;
 
-import lk.ijse.Crop_monitoring_system.util.Role;
+import lk.ijse.Crop_monitoring_system.Entity.Enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

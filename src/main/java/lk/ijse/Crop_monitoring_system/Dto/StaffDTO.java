@@ -1,8 +1,8 @@
 package lk.ijse.Crop_monitoring_system.Dto;
 
-import lk.ijse.Crop_monitoring_system.util.Designation;
-import lk.ijse.Crop_monitoring_system.util.Gender;
-import lk.ijse.Crop_monitoring_system.util.Role;
+import lk.ijse.Crop_monitoring_system.Entity.Enums.Designation;
+import lk.ijse.Crop_monitoring_system.Entity.Enums.Gender;
+import lk.ijse.Crop_monitoring_system.Entity.Enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
