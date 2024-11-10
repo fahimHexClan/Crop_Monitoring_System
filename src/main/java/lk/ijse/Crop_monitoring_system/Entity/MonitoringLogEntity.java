@@ -31,7 +31,7 @@ public class MonitoringLogEntity {
     private String logDetails; // Detailed description of the log
 
     @Lob
-    private String observedImage; // Image associated with the log
+    private byte[] observedImage; // Image associated with the log
 
     @ManyToMany
     @JoinTable(

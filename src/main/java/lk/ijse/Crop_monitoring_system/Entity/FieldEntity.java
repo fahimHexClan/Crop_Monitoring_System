@@ -24,6 +24,7 @@ public class FieldEntity {
     @Column(unique = true, nullable = false)
     private String fieldCode; // Unique field code
 
+    @Column(nullable = false)
     private String fieldName;  // Descriptive name for the field
 
     @Column(nullable = false)
@@ -33,10 +34,10 @@ public class FieldEntity {
     private Double extentSize; // Extent size in square meters
 
     @Lob
-    private String fieldImage1; // Image of the field (large data)
+    private byte[] fieldImage1; // Image of the field (large data)
 
     @Lob
-    private String fieldImage2; // Optional secondary field image
+    private byte[] fieldImage2; // Optional secondary field image
 
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CropEntity> crops; // Crops associated with this field

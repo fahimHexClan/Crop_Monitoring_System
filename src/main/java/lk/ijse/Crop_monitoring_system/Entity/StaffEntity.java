@@ -31,15 +31,19 @@ public class StaffEntity {
     private String lastName; // Last name of the staff member
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Designation designation; // Designation of the staff member
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Gender gender; // Gender of the staff member
 
     @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
     private Date joinedDate; // Date the staff member joined
 
     @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
     private Date dob; // Date of birth of the staff member
 
     private String addressLine1; // Address line 1
@@ -48,7 +52,10 @@ public class StaffEntity {
     private String addressLine4; // Address line 4
     private String addressLine5; // Address line 5
 
+    @Column(nullable = false)
     private String contactNo; // Contact number
+
+    @Column(nullable = false, unique = true)
     private String email; // Email address
 
     @Enumerated(EnumType.STRING)

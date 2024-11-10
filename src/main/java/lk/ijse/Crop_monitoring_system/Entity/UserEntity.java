@@ -26,6 +26,6 @@ public class UserEntity {
     private String password; // Encrypted password
 
     @Enumerated(EnumType.STRING)
-    private Role role; // User's role (e.g., ADMIN, USER)
+    private Role role;
 
 }

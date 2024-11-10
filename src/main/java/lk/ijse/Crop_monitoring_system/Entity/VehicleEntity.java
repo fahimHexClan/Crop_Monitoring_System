@@ -34,7 +34,7 @@ public class VehicleEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "vehicle_staff_mapping",
+            name = "vehicle_staff_mapping_details",
             joinColumns = @JoinColumn(name = "vehicle_id"),
             inverseJoinColumns = @JoinColumn(name = "staff_id")
     )

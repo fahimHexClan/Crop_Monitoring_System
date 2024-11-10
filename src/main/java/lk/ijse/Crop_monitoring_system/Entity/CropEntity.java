@@ -23,13 +23,16 @@ public class CropEntity {
     @Column(nullable = false)
     private String commonName; // Common name of the crop
 
+    @Column(nullable = false)
     private String scientificName; // Scientific name of the crop
 
     @Lob
-    private String cropImage; // Image of the crop
+    private byte[]  cropImage; // Image of the crop
 
+    @Column(nullable = false)
     private String category; // Category of the crop (e.g., Fruit, Vegetable)
 
+    @Column(nullable = false)
     private String season; // Growing season of the crop
 
     @ManyToOne
