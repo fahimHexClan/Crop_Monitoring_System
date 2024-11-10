@@ -1,9 +1,6 @@
 package lk.ijse.Crop_monitoring_system.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,14 +12,28 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "Equipment")
 public class EquipmentEntity {
-    @Id
+  @Id
     @Column(name = "Equipment_id" , length = 45)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String EquipmentId;
-    private String Name;
-    private String Type;
-    private String Status;
-    private String AssignedStaffDetails;
-    private String AssignedFieldDetails;
+    @Column(unique = true, nullable = false)
+    private String equipmentCode; // Unique identifier for the equipment
 
+    @Column(nullable = false)
+    private String name; // Name of the equipment
+
+    private String type; // Type or category of the equipment
+
+    private String status; // Current status (e.g., Available, In Use, Under Maintenance)
+
+    @ManyToOne
+    @JoinColumn(name = "staff_id")
+    private StaffEntity assignedStaff; // Staff member responsible for the equipment
+
+    @ManyToOne
+    @JoinColumn(name = "field_id")
+    private FieldEntity assignedField; // Field where the equipment is deployed
 }
+
+

@@ -1,9 +1,9 @@
 package lk.ijse.Crop_monitoring_system.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lk.ijse.Crop_monitoring_system.util.Gender;
+import lk.ijse.Crop_monitoring_system.util.Designation;
+import lk.ijse.Crop_monitoring_system.util.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,28 +18,47 @@ import java.util.List;
 @Table(name = "Staff")
 public class StaffEntity {
     @Id
-    @Column(name = "staff_id" , length = 45)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String StaffId;
-    private String FirstName;
-    private String LastName;
-    private String Designation;
-    private Enum Gender;
-    private Date JoinedDate;
-    private Date DOB;
-    private String AddressLine01;
-    private String AddressLine02;
-    private String AddressLine03;
-    private String AddressLine04;
-    private String AddressLine05;
-    private String ContactNo;
-    private String Email;
-    private String Role;
-    private String Field;
-    private String Vehicle;
+    @Column(unique = true, nullable = false)
+    private String staffCode; // Unique identifier for the staff member
 
+    @Column(nullable = false)
+    private String firstName; // First name of the staff member
 
+    @Column(nullable = false)
+    private String lastName; // Last name of the staff member
 
+    @Enumerated(EnumType.STRING)
+    private Designation designation; // Designation of the staff member
 
+    @Enumerated(EnumType.STRING)
+    private Gender gender; // Gender of the staff member
 
+    @Temporal(TemporalType.DATE)
+    private Date joinedDate; // Date the staff member joined
+
+    @Temporal(TemporalType.DATE)
+    private Date dob; // Date of birth of the staff member
+
+    private String addressLine1; // Address line 1
+    private String addressLine2; // Address line 2
+    private String addressLine3; // Address line 3
+    private String addressLine4; // Address line 4
+    private String addressLine5; // Address line 5
+
+    private String contactNo; // Contact number
+    private String email; // Email address
+
+    @Enumerated(EnumType.STRING)
+    private Role role; // Role of the staff member
+
+    @ManyToMany(mappedBy = "staff")
+    private List<FieldEntity> fields; // Fields associated with the staff member
+
+    @ManyToMany(mappedBy = "staff")
+    private List<VehicleEntity> vehicles; // Vehicles associated with the staff member
 }
+
+

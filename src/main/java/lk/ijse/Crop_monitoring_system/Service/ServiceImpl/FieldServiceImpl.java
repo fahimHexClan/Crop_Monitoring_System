@@ -1,8 +1,7 @@
 package lk.ijse.Crop_monitoring_system.Service.ServiceImpl;
 
 import jakarta.transaction.Transactional;
-import lk.ijse.Crop_monitoring_system.Dto.FieldDto;
-import lk.ijse.Crop_monitoring_system.Dto.Request.SaveFieldRequestDto;
+import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
 import lk.ijse.Crop_monitoring_system.Entity.FieldEntity;
 import lk.ijse.Crop_monitoring_system.Exception.EntryDuplicateException;
 import lk.ijse.Crop_monitoring_system.Repository.FieldRepo;
@@ -29,10 +28,10 @@ public class FieldServiceImpl implements FieldService {
 
 
     @Override
-    public String Save_Fields(FieldDto fieldDto) {
+    public String Save_Fields(FieldDTO fieldDto) {
         FieldEntity field = fieldMapper.RequesDtoToEntity(fieldDto);
 
-        if (!fieldRepo.existsById(field.getFieldId())) {
+        if (!fieldRepo.existsById(String.valueOf(field.getFieldId()))) {
 
             return fieldRepo.save(field).getFieldName();
         } else {

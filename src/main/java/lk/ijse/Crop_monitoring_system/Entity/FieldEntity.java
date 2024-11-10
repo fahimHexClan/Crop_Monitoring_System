@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.awt.*;
 import java.util.List;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -16,20 +17,36 @@ import java.util.List;
 @Table(name = "Field")
 public class FieldEntity {
     @Id
-    @Column(name = "field_id" , length = 45)
-    private String FieldId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Field_id" , length = 45)
+    private Long FieldId;
 
-    @Column(name = "field_name")
-    private String FieldName;
+    @Column(unique = true, nullable = false)
+    private String fieldCode; // Unique field code
 
-    private String Field;
+    private String fieldName;  // Descriptive name for the field
 
-    @Column(name = "extent_size_of_the_field")
-    private Double ExtentSizeOfTheField;
-   /* private List<> crops;
-    private Staff<> staff;
-    private LongText FieldImage1;
-    private Longtext FieldImage2;*/
+    @Column(nullable = false)
+    private Point location;   // GPS or address
 
+    @Column(nullable = false)
+    private Double extentSize; // Extent size in square meters
 
+    @Lob
+    private String fieldImage1; // Image of the field (large data)
+
+    @Lob
+    private String fieldImage2; // Optional secondary field image
+
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CropEntity> crops; // Crops associated with this field
+
+    @ManyToMany
+    @JoinTable(
+            name = "field_staff_mapping",
+            joinColumns = @JoinColumn(name = "field_id"),
+            inverseJoinColumns = @JoinColumn(name = "staff_id")
+    )
+    private List<StaffEntity> staff; // Staff assigned to this field
 }
+

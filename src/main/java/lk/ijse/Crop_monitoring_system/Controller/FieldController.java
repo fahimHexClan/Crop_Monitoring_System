@@ -1,7 +1,6 @@
 package lk.ijse.Crop_monitoring_system.Controller;
 
-import lk.ijse.Crop_monitoring_system.Dto.FieldDto;
-import lk.ijse.Crop_monitoring_system.Dto.Request.SaveFieldRequestDto;
+import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
 import lk.ijse.Crop_monitoring_system.Service.FieldService;
 import lk.ijse.Crop_monitoring_system.util.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class FieldController {
     }*/
 
     @PostMapping(path = "/save")
-    public ResponseEntity<StandardResponse> saveFIeld(@RequestBody FieldDto fieldDto) {
+    public ResponseEntity<StandardResponse> saveFIeld(@RequestBody FieldDTO fieldDto) {
         String id = fieldService.Save_Fields(fieldDto);
 
 

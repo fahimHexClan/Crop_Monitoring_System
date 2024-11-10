@@ -1,9 +1,6 @@
 package lk.ijse.Crop_monitoring_system.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,13 +14,46 @@ import java.util.List;
 @Entity
 @Table(name = "MonitoringLog")
 public class MonitoringLogEntity {
+
+
     @Id
-    @Column(name = "Log_id" , length = 45)
-    private String Logcode;
-    private Date LogDate;
-    private String LogDetails;
-    private String ObservedImage;
-    private String Field;
-    private String Crop;
-    private String Staff;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Log_id", length = 45)
+    private Long id;
+
+    @Column(unique = true, nullable = false)
+    private String logCode; // Unique identifier for the log
+
+    @Temporal(TemporalType.DATE)
+    private Date logDate; // Date of the log entry
+
+    @Lob
+    private String logDetails; // Detailed description of the log
+
+    @Lob
+    private String observedImage; // Image associated with the log
+
+    @ManyToMany
+    @JoinTable(
+            name = "log_field_mapping",
+            joinColumns = @JoinColumn(name = "log_id"),
+            inverseJoinColumns = @JoinColumn(name = "field_id")
+    )
+    private List<FieldEntity> fields; // Fields associated with the log
+
+    @ManyToMany
+    @JoinTable(
+            name = "log_crop_mapping",
+            joinColumns = @JoinColumn(name = "log_id"),
+            inverseJoinColumns = @JoinColumn(name = "crop_id")
+    )
+    private List<CropEntity> crops; // Crops associated with the log
+
+    @ManyToMany
+    @JoinTable(
+            name = "log_staff_mapping",
+            joinColumns = @JoinColumn(name = "log_id"),
+            inverseJoinColumns = @JoinColumn(name = "staff_id")
+    )
+    private List<StaffEntity> staff; // Staff members associated with the log
 }

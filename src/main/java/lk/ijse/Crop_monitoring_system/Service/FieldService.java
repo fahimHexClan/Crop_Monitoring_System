@@ -1,10 +1,9 @@
 package lk.ijse.Crop_monitoring_system.Service;
 
-import lk.ijse.Crop_monitoring_system.Dto.FieldDto;
-import lk.ijse.Crop_monitoring_system.Dto.Request.SaveFieldRequestDto;
+import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
 
 public interface FieldService {
 
 
-    String Save_Fields(FieldDto fieldDto);
+    String Save_Fields(FieldDTO fieldDto);
 }
