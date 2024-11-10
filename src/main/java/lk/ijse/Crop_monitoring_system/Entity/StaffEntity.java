@@ -61,8 +61,8 @@ public class StaffEntity {
     @ManyToMany(mappedBy = "staff")
     private List<FieldEntity> fields; // Fields associated with the staff member
 
-    @ManyToMany(mappedBy = "staff")
-    private List<VehicleEntity> vehicles; // Vehicles associated with the staff member
+    @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VehicleEntity> vehicles; //  Vehicles assigned to the staff member
 }
 
 

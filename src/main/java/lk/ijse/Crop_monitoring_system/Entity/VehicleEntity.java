@@ -37,13 +37,9 @@ public class VehicleEntity {
     @Column(nullable = false)
     private VehicleStatus status; // Status of the vehicle (e.g., Active, Under Maintenance)
 
-    @ManyToMany
-    @JoinTable(
-            name = "vehicle_staff_mapping_details",
-            joinColumns = @JoinColumn(name = "vehicle_id"),
-            inverseJoinColumns = @JoinColumn(name = "staff_id")
-    )
-    private List<StaffEntity> staff; // Staff members associated with the vehicle
+    @ManyToOne
+    @JoinColumn(name = "staff_id", nullable = false)
+    private StaffEntity staff;
 
     private String remarks;
 }
