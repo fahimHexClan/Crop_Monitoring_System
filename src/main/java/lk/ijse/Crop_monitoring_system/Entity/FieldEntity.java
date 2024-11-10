@@ -18,23 +18,26 @@ import java.util.List;
 public class FieldEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Field_id" , length = 45)
+    @Column(name = "Field_id")
     private Long FieldId;
 
-    @Column(nullable = false)
-    private String fieldName;  // Descriptive name for the field
+    @Column(name = "field_Name", nullable = false)
+    private String fieldName;
 
-    @Column(nullable = false)
-    private Point location;   // GPS or address
+    @Column(name = "field_location", nullable = false)
+    private Point location;//Point Data type useful for applications that need to work with geographic data such as mapping, location tracking, and spatial analysis.
 
-    @Column(nullable = false)
-    private Double extentSize; // Extent size in square meters
-
-    @Lob
-    private byte[] fieldImage1; // Image of the field (large data)
+    @Column(name = "field_extentSize", nullable = false)
+    private Double extentSize;
 
     @Lob
-    private byte[] fieldImage2; // Optional secondary field image
+    @Column(name = "fieldImage1",nullable = false)
+    private byte[] fieldImage1;
+
+    @Lob
+    @Column(name = "fieldImage2",nullable = false)
+    private byte[] fieldImage2;
+
 
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CropEntity> crops; // Crops associated with this field

@@ -17,24 +17,25 @@ public class CropEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String commonName; // Common name of the crop
+    @Column(name = "Crop_commonName", nullable = false)
+    private String commonName;
 
-    @Column(nullable = false)
-    private String scientificName; // Scientific name of the crop
+    @Column(name = "Crop_scientificName", nullable = false)
+    private String scientificName;
 
-    @Lob
-    private byte[]  cropImage; // Image of the crop
+    @Lob//This is particularly useful when you need to store large amounts of data,
+    @Column(name = "Crop_image")
+    private byte[]  cropImage;
 
-    @Column(nullable = false)
-    private String category; // Category of the crop (e.g., Fruit, Vegetable)
+    @Column(name = "Crop_category", nullable = false)// using null false mean-should always have a value
+    private String category;
 
-    @Column(nullable = false)
-    private String season; // Growing season of the crop
+    @Column(name = "season", nullable = false)
+    private String season;
 
     @ManyToOne
     @JoinColumn(name = "field_id", nullable = false)
-    private FieldEntity field; // Associated field
+    private FieldEntity field;
 }
 
 

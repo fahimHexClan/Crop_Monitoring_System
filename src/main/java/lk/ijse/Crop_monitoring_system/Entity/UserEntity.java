@@ -16,12 +16,13 @@ public class UserEntity {
 
     @Id
     @Column(name = "Email_id" , length = 45)
-    private String email; // User's email address (used as username)
+    private String email;
 
-    @Column(nullable = false)
-    private String password; // Encrypted password
+    @Column(name = "usr_password", nullable = false)
+    private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "usr_role")
     private Role role;
 
 }

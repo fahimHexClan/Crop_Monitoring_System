@@ -18,17 +18,22 @@ public class MonitoringLogEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Log_id", length = 45)
+    @Column(name = "Log_id")
     private Long id;
 
     @Temporal(TemporalType.DATE)
-    private Date logDate; // Date of the log entry
+    //@Temporal annotation is correct database column type is used for storing date or time information
+    @Column(name = "Moniter_logDate")
+    private Date logDate;
 
     @Lob
-    private String logDetails; // Detailed description of the log
+    @Column(name = "Moniter_logDetails")
+    private String logDetails;
 
     @Lob
-    private byte[] observedImage; // Image associated with the log
+    @Column(name = "Moniter_LogImage")
+    private byte[] observedImage;
+    //byte=Used to store  image ,pdf,word documents,audio ,video in databse
 
     @ManyToMany
     @JoinTable(

@@ -15,30 +15,28 @@ import lombok.NoArgsConstructor;
 @Table(name = "Equipment")
 public class EquipmentEntity {
     @Id
-    @Column(name = "Equipment_id", length = 45)
+    @Column(name = "Equipment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String equipmentCode; // Unique identifier for the equipment
-
-    @Column(nullable = false)
-    private String name; // Name of the equipment
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private EquipmentType type; // Type or category of the equipment
+    @Column(name = "Equipment_name", nullable = false)
+    private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "Equipment_Type", nullable = false)
+    private EquipmentType type;
+
+    @Enumerated(EnumType.STRING)//When persisting these enum values into a database, JPA needs to know how to store and retrieve them
+    @Column(name = "Equipment_Status", nullable = false)
     private EquipmentStatus status;
 
     @ManyToOne
     @JoinColumn(name = "staff_id")
-    private StaffEntity assignedStaff; // Staff member responsible for the equipment
+    private StaffEntity assignedStaff;
 
     @ManyToOne
     @JoinColumn(name = "field_id")
-    private FieldEntity assignedField; // Field where the equipment is deployed
+    private FieldEntity assignedField;
 }
 
 

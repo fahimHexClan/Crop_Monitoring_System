@@ -1,8 +1,8 @@
 package lk.ijse.Crop_monitoring_system.Entity;
 
 import jakarta.persistence.*;
-import lk.ijse.Crop_monitoring_system.util.Gender;
 import lk.ijse.Crop_monitoring_system.util.Designation;
+import lk.ijse.Crop_monitoring_system.util.Gender;
 import lk.ijse.Crop_monitoring_system.util.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -19,47 +20,58 @@ import java.util.List;
 public class StaffEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Staff_id")
     private Long id;
 
-    @Column(nullable = false)
-    private String firstName; // First name of the staff member
+    @Column(name = "Staff_first_Name", nullable = false)
+    private String firstName;
 
-    @Column(nullable = false)
-    private String lastName; // Last name of the staff member
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Designation designation; // Designation of the staff member
+    @Column(name = "Staff_last_Name", nullable = false)
+    private String lastName;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Gender gender; // Gender of the staff member
+    @Column(name = "Staff_designation", nullable = false)
+    private Designation designation;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "staff_gender", nullable = false)
+    private Gender gender;
 
     @Temporal(TemporalType.DATE)
-    @Column(nullable = false)
-    private Date joinedDate; // Date the staff member joined
+    @Column(name = "staff_joined_Date", nullable = false)
+    private Date joinedDate;
 
     @Temporal(TemporalType.DATE)
-    @Column(nullable = false)
-    private Date dob; // Date of birth of the staff member
+    @Column(name = "staff_dob", nullable = false)
+    private Date dob;
 
-    private String addressLine1; // Address line 1
-    private String addressLine2; // Address line 2
-    private String addressLine3; // Address line 3
-    private String addressLine4; // Address line 4
-    private String addressLine5; // Address line 5
+    @Column(name = "staff_addressLine1")
+    private String addressLine1;
 
-    @Column(nullable = false)
-    private String contactNo; // Contact number
+    @Column(name = "staff_addressLine2")
+    private String addressLine2;
 
-    @Column(nullable = false, unique = true)
-    private String email; // Email address
+    @Column(name = "staff_addressLine3")
+    private String addressLine3;
+
+    @Column(name = "staff_addressLine4")
+    private String addressLine4;
+
+    @Column(name = "staff_addressLine5")
+    private String addressLine5;
+
+    @Column(name = "staff_contactNo", nullable = false)
+    private String contactNo;
+
+    @Column(name = "staff_email", nullable = false, unique = true)
+    private String email;
 
     @Enumerated(EnumType.STRING)
-    private Role role; // Role of the staff member
+    @Column(name = "staff_role")
+    private Role role;
 
     @ManyToMany(mappedBy = "staff")
-    private List<FieldEntity> fields; // Fields associated with the staff member
+    private List<FieldEntity> fields;
 
     @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VehicleEntity> vehicles; //  Vehicles assigned to the staff member
