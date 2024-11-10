@@ -21,9 +21,6 @@ public class MonitoringLogEntity {
     @Column(name = "Log_id", length = 45)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String logCode; // Unique identifier for the log
-
     @Temporal(TemporalType.DATE)
     private Date logDate; // Date of the log entry
 

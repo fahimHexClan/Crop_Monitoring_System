@@ -31,6 +31,7 @@ public class EquipmentEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EquipmentStatus status;
+
     @ManyToOne
     @JoinColumn(name = "staff_id")
     private StaffEntity assignedStaff; // Staff member responsible for the equipment

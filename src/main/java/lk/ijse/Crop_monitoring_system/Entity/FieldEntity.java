@@ -21,9 +21,6 @@ public class FieldEntity {
     @Column(name = "Field_id" , length = 45)
     private Long FieldId;
 
-    @Column(unique = true, nullable = false)
-    private String fieldCode; // Unique field code
-
     @Column(nullable = false)
     private String fieldName;  // Descriptive name for the field
 

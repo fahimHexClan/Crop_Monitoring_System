@@ -14,12 +14,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "User")
 public class UserEntity {
 
-    @Column(name = "Email_id" , length = 45)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(unique = true, nullable = false)
+    @Column(name = "Email_id" , length = 45)
     private String email; // User's email address (used as username)
 
     @Column(nullable = false)

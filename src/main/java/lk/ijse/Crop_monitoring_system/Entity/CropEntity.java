@@ -17,9 +17,6 @@ public class CropEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String cropCode; // Unique identifier for the crop
-
     @Column(nullable = false)
     private String commonName; // Common name of the crop
 

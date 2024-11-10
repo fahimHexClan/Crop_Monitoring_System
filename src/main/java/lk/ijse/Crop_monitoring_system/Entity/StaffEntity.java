@@ -21,9 +21,6 @@ public class StaffEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String staffCode; // Unique identifier for the staff member
-
     @Column(nullable = false)
     private String firstName; // First name of the staff member
 
