@@ -94,8 +94,24 @@ public class VehicleController {
         }
     }
 
+    @DeleteMapping("/deleteVehicle/{vehicleID}")
+    public ResponseEntity<StandardResponse> deleteVehicle(@PathVariable("vehicleID") Long vehicleID) {
+    try {
+        String res = vehicleService.deleteVehicle(vehicleID);
+        if (res.equals("00")) {
+            return new ResponseEntity<StandardResponse>(new StandardResponse(200, " Succesfully delete by Id  ", vehicleID), HttpStatus.ACCEPTED);//data ekak aluthen get karama ok kiyala return karanawa
 
-}
+        } else {
+            return new ResponseEntity<StandardResponse>(new StandardResponse(600, vehicleID + "  No Vehicle is avilable on this id  : ", vehicleID), HttpStatus.BAD_REQUEST);//data ekak aluthen create karama create kiyala return karanawa
+
+        }
+    }catch (Exception e){
+        return new ResponseEntity<StandardResponse>(new StandardResponse(601, " Error  : ", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);//data ekak aluthen create karama create kiyala return karanawa
+    }
+    }
+
+    }
+
 
 
 

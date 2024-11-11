@@ -66,6 +66,16 @@ public class VehicleServiceImpl implements VehicleService {
             return null;
         }
     }
+
+    @Override
+    public String deleteVehicle(Long vehicleID) {
+        if (vehicleRepo.existsById(vehicleID)){
+            vehicleRepo.deleteById(vehicleID);
+            return VarList.RSP_SUCCESS;
+        }else {
+            return VarList.RSP_DUPLICATED;
+        }
+    }
 }
 
 
