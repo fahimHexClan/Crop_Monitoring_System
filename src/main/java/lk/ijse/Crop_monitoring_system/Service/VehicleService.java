@@ -10,4 +10,6 @@ public interface VehicleService {
     String updateVehicle(VehicleDto vehicleDto);
 
     List<VehicleDto> getAllVehicles();
+
+    VehicleDto getVehicleById(Long vehicleId);
 }

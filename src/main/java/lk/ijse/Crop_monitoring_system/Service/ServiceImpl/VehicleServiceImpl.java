@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lk.ijse.Crop_monitoring_system.Dto.VehicleDto;
 import lk.ijse.Crop_monitoring_system.Entity.VehicleEntity;
 import lk.ijse.Crop_monitoring_system.Exception.DataPersistException;
+import lk.ijse.Crop_monitoring_system.Exception.NotFoundException;
 import lk.ijse.Crop_monitoring_system.Repository.VehicleRepo;
 import lk.ijse.Crop_monitoring_system.Service.VehicleService;
 import lk.ijse.Crop_monitoring_system.util.Mappers.VehicleMapper;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service//meka danne service layer eka identify karaganna
 @Transactional //data 2 tables walta eka paara yawanna
@@ -55,4 +57,15 @@ public class VehicleServiceImpl implements VehicleService {
         }.getType()) ;
     }
 
+    @Override
+    public VehicleDto getVehicleById(Long vehicleId) {
+    if (vehicleRepo.existsById(vehicleId)){
+            VehicleEntity vehicleEntity =vehicleRepo.findById(vehicleId).orElse(null);
+            return modelMapper.map(vehicleEntity,VehicleDto.class);
+        }else {
+            return null;
+        }
+    }
 }
+
+

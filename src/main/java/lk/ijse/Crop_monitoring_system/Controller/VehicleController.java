@@ -76,6 +76,23 @@ public class VehicleController {
 
     }
 
+    @GetMapping(path = "/Search_Vehicle_By_Id/{vehicleId}")
+    public ResponseEntity<StandardResponse> findVehicleByVehicleId(@PathVariable("vehicleId") Long vehicleId) {
+        try {
+            VehicleDto vehicleDto= vehicleService.getVehicleById(vehicleId);
+            if (vehicleDto != null) {
+                return new ResponseEntity<StandardResponse>(new StandardResponse(200, " Succesfully get by Id  ", vehicleId), HttpStatus.ACCEPTED);//data ekak aluthen get karama ok kiyala return karanawa
+
+            }else {
+                return new ResponseEntity<StandardResponse>(new StandardResponse(600, vehicleId + "  No Vehicle is avilable on this id  : ", vehicleId), HttpStatus.BAD_REQUEST);//data ekak aluthen create karama create kiyala return karanawa
+
+
+            }
+        }catch (Exception e){
+            return new ResponseEntity<StandardResponse>(new StandardResponse(601, " Error  : ", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);//data ekak aluthen create karama create kiyala return karanawa
+
+        }
+    }
 
 
 }
