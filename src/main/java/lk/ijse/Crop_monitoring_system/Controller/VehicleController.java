@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping("api/v1/Vehicle")
@@ -60,9 +62,19 @@ public class VehicleController {
         }
     }
 
+    @GetMapping(path = {"/get_All_Vehicle"})
+    public ResponseEntity<StandardResponse> getAllVehicle() {
+        try {
+            List<VehicleDto> allVehicles = vehicleService.getAllVehicles();
+            return new ResponseEntity<StandardResponse>(new StandardResponse(200, " Succesfully get  ", allVehicles), HttpStatus.ACCEPTED//data ekak aluthen get karama ok kiyala return karanawa
+            );
 
+        }catch (Exception e){
+            return new ResponseEntity<StandardResponse>(new StandardResponse(601, " Error  : ", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);//data ekak aluthen create karama create kiyala return karanawa
 
+        }
 
+    }
 
 
 

@@ -9,8 +9,12 @@ import lk.ijse.Crop_monitoring_system.Service.VehicleService;
 import lk.ijse.Crop_monitoring_system.util.Mappers.VehicleMapper;
 import lk.ijse.Crop_monitoring_system.util.VarList;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service//meka danne service layer eka identify karaganna
 @Transactional //data 2 tables walta eka paara yawanna
@@ -40,6 +44,15 @@ public class VehicleServiceImpl implements VehicleService {
 
         return VarList.RSP_DUPLICATED;
         }
+    }
+
+    @Override
+    public List<VehicleDto> getAllVehicles() {
+       List<VehicleEntity> vehicleEntityList =vehicleRepo.findAll();
+
+        return modelMapper.map(vehicleEntityList,new TypeToken<ArrayList<VehicleDto>>(){
+
+        }.getType()) ;
     }
 
 }
