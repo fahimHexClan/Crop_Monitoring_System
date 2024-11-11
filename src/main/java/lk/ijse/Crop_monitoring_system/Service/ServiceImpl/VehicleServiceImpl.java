@@ -31,4 +31,15 @@ public class VehicleServiceImpl implements VehicleService {
             return VarList.RSP_SUCCESS;
         } }
 
+    @Override
+    public String updateVehicle(VehicleDto vehicleDto) {
+        if(vehicleRepo.existsById(vehicleDto.getId())) {
+            vehicleRepo.save(modelMapper.map(vehicleDto, VehicleEntity.class));
+            return VarList.RSP_SUCCESS;
+        }else {
+
+        return VarList.RSP_DUPLICATED;
+        }
+    }
+
 }
