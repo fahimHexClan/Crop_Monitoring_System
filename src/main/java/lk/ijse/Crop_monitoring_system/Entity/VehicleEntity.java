@@ -37,7 +37,7 @@ public class VehicleEntity {
     private VehicleStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "staff_id", nullable = false)
+    @JoinColumn(name = "staff_id")
     private StaffEntity staff;
 
     @Column(name = "vehicle_remarks")

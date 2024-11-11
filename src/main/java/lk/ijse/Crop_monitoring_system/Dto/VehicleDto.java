@@ -19,6 +19,6 @@ public class VehicleDto {
     private VehicleCategory category;
     private FuelType fuelType;
     private VehicleStatus status;
-    private StaffEntity staff;
+    private Long staffId;
     private String remarks;
 }

@@ -2,7 +2,7 @@ package lk.ijse.Crop_monitoring_system.Controller;
 
 import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
 import lk.ijse.Crop_monitoring_system.Service.FieldService;
-import lk.ijse.Crop_monitoring_system.util.StandardResponse;
+import lk.ijse.Crop_monitoring_system.Dto.ResponseDto.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

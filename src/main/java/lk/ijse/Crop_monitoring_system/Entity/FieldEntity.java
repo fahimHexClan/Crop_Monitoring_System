@@ -31,11 +31,11 @@ public class FieldEntity {
     private Double extentSize;
 
     @Lob
-    @Column(name = "fieldImage1",nullable = false)
+    @Column(name = "fieldImage1")
     private byte[] fieldImage1;
 
     @Lob
-    @Column(name = "fieldImage2",nullable = false)
+    @Column(name = "fieldImage2")
     private byte[] fieldImage2;
 
 
