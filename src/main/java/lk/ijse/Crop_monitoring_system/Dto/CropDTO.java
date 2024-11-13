@@ -16,7 +16,7 @@ public class CropDTO {
     private Long id;
     private String commonName;
     private String scientificName;
-    private byte[]  cropImage;
+    private String  cropImage;
     private String category;
     private String season;
     private FieldDTO field;

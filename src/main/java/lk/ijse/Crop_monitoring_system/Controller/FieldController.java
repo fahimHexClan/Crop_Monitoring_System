@@ -1,37 +1,75 @@
 package lk.ijse.Crop_monitoring_system.Controller;
 
 import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
-import lk.ijse.Crop_monitoring_system.Service.FieldService;
-import lk.ijse.Crop_monitoring_system.Dto.ResponseDto.StandardResponse;
+import lk.ijse.Crop_monitoring_system.Exception.DataPersistException;
+import lk.ijse.Crop_monitoring_system.Exception.NoteNotFoundException;
+import lk.ijse.Crop_monitoring_system.Service.FieldServise;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController//Http request response handle karanna ena request json walta json walta convort karanawa
-@RequestMapping("api/v1/field")//map karanna
-@CrossOrigin
+import java.util.List;
+
+@RestController
+@RequestMapping("api/v1/field")
 public class FieldController {
-
     @Autowired
-    private FieldService fieldService;
+    private FieldServise fieldServise;
 
-/*    @PostMapping(path = "/saveField")
-    //@RequestBody eken wenne frontend ekedi jason object widihata thama data yawanne
-    //ajson object eke thiyna eka java object widihata harawaganna meka use karanawa
-    public SaveFieldRequestDto addField(@RequestBody SaveFieldRequestDto saveFieldRequestDto) {
-        return fieldService.addField(saveFieldRequestDto);
-    }*/
+    @PostMapping(path = ("/saveField"),consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> saveNote(@RequestBody FieldDTO fieldDTO) {
+        try {
+            fieldServise.saveField(fieldDTO);
+            return new ResponseEntity<>(HttpStatus.CREATED);
 
-    @PostMapping(path = "/save")
-    public ResponseEntity<StandardResponse> saveFIeld(@RequestBody FieldDTO fieldDto) {
-        String id = fieldService.Save_Fields(fieldDto);
+        }catch (DataPersistException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
-        //return type eka ResponseEntity dila genaric eke api create karapu StandardResponseclass eka dala
-        // a class eke attributes tika fill karala okkoma create unama created kiyana eka danawa
-        return new ResponseEntity<StandardResponse>(new StandardResponse(201, id + "Item Succesfully saved  : ", id), HttpStatus.CREATED//data ekak aluthen create karama create kiyala return karanawa
-        );
+    @GetMapping(path = ("/getAllField"),produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<FieldDTO> getALlNotes(){
+        return fieldServise.getAllField();
+    }
+
+
+    @DeleteMapping(path = ("/deleteField/{fieldId}"))
+    public ResponseEntity<Void> deleteNote(@PathVariable ("fieldId") Long fieldId){
+        try {
+            fieldServise.deletefield(fieldId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (NoteNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @PutMapping(path = ("/updateField/{fieldId}"))
+    public ResponseEntity<Void> updateNote(@PathVariable ("fieldId") Long fieldId,
+                                           @RequestBody FieldDTO fieldDTO){
+        //validations
+        try {
+            fieldServise.updateField(fieldId,fieldDTO);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (NoteNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

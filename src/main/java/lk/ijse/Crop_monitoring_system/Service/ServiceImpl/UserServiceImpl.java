@@ -2,6 +2,7 @@ package lk.ijse.Crop_monitoring_system.Service.ServiceImpl;
 
 import jakarta.transaction.Transactional;
 import lk.ijse.Crop_monitoring_system.Dto.UserDTO;
+import lk.ijse.Crop_monitoring_system.Dto.VehicleDto;
 import lk.ijse.Crop_monitoring_system.Entity.UserEntity;
 import lk.ijse.Crop_monitoring_system.Entity.VehicleEntity;
 import lk.ijse.Crop_monitoring_system.Repository.UserRepo;
@@ -39,4 +40,27 @@ public class UserServiceImpl implements UserService {
             return VarList.RSP_DUPLICATED;
         }
     }
+
+    @Override
+    public UserDTO getUserByEmail(String email) {
+        if (userRepo.existsById(email)) {
+            UserEntity userEntity = userRepo.findById(email).orElse(null);
+            return modelMapper.map(userEntity, UserDTO.class);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public String deleteEmail(String email) {
+        if (userRepo.existsById(email)) {
+            userRepo.deleteById(email);
+            return VarList.RSP_SUCCESS;
+        } else {
+            return VarList.RSP_DUPLICATED;
+        }
+
+    }
+
+
 }

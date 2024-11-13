@@ -18,7 +18,7 @@ public class MonitoringLogDTO {
     private Long id;
     private Date logDate;
     private String logDetails;
-    private byte[] observedImage;
+    private String observedImage;
     private List<FieldDTO> fields; // Fields associated with the log
     private List<CropDTO> crops; // Crops associated with the log
     private List<StaffDTO> staff;

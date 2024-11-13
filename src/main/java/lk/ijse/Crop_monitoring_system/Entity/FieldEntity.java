@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Point;
 
 import java.awt.*;
 import java.util.List;
@@ -24,19 +25,17 @@ public class FieldEntity {
     @Column(name = "field_Name", nullable = false)
     private String fieldName;
 
-    @Column(name = "field_location", nullable = false)
+    @Column(name = "field_location",columnDefinition = "POINT", nullable = false)
     private Point location;//Point Data type useful for applications that need to work with geographic data such as mapping, location tracking, and spatial analysis.
 
     @Column(name = "field_extentSize", nullable = false)
     private Double extentSize;
 
-    @Lob
-    @Column(name = "fieldImage1")
-    private byte[] fieldImage1;
+    @Column(name = "fieldImage1",columnDefinition = "LONGTEXT")
+    private String fieldImage1;
 
-    @Lob
-    @Column(name = "fieldImage2")
-    private byte[] fieldImage2;
+    @Column(name = "fieldImage2",columnDefinition = "LONGTEXT")
+    private String fieldImage2;
 
 
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)

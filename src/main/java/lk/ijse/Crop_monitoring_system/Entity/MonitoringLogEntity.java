@@ -26,13 +26,11 @@ public class MonitoringLogEntity {
     @Column(name = "Moniter_logDate")
     private Date logDate;
 
-    @Lob
     @Column(name = "Moniter_logDetails")
     private String logDetails;
 
-    @Lob
-    @Column(name = "Moniter_LogImage")
-    private byte[] observedImage;
+    @Column(name = "Moniter_LogImage",columnDefinition = "LONGTEXT")
+    private String observedImage;
     //byte=Used to store  image ,pdf,word documents,audio ,video in databse
 
     @ManyToMany

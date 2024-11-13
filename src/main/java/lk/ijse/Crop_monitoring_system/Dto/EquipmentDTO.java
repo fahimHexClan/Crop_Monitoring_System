@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -17,6 +19,6 @@ public class EquipmentDTO {
     private String name;
     private EquipmentType type;
     private EquipmentStatus status;
-    private StaffEntity assignedStaff;
-    private FieldEntity assignedField;
+    private List<StaffDTO> assignedStaff;
+    private List<FieldDTO> assignedField;
 }

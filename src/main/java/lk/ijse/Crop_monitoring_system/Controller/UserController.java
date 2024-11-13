@@ -61,4 +61,38 @@ public class UserController {
         }
     }
 
+    @GetMapping(path = "/Search_User_By_Email/{email}")
+    public ResponseEntity<StandardResponse> findVehicleByVehicleId(@PathVariable("email") String email) {
+        try {
+            UserDTO userDTO= userService.getUserByEmail(email);
+            if (userDTO != null) {
+                return new ResponseEntity<StandardResponse>(new StandardResponse(200, " Succesfully get by email  ", email), HttpStatus.ACCEPTED);//data ekak aluthen get karama ok kiyala return karanawa
+
+            }else {
+                return new ResponseEntity<StandardResponse>(new StandardResponse(600, email + "  No User is avilable on this email  : ", email), HttpStatus.BAD_REQUEST);//data ekak aluthen create karama create kiyala return karanawa
+
+
+            }
+        }catch (Exception e){
+            return new ResponseEntity<StandardResponse>(new StandardResponse(601, " Error  : ", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);//data ekak aluthen create karama create kiyala return karanawa
+
+        }
+    }
+
+    @DeleteMapping("/deleteUser/{email}")
+    public ResponseEntity<StandardResponse> deleteVehicle(@PathVariable("email") String email) {
+        try {
+            String res = userService.deleteEmail(email);
+            if (res.equals("00")) {
+                return new ResponseEntity<StandardResponse>(new StandardResponse(200, " Succesfully delete by user  ", email), HttpStatus.ACCEPTED);//data ekak aluthen get karama ok kiyala return karanawa
+
+            } else {
+                return new ResponseEntity<StandardResponse>(new StandardResponse(600, email + "  No user is avilable on this id  : ", email), HttpStatus.BAD_REQUEST);//data ekak aluthen create karama create kiyala return karanawa
+
+            }
+        }catch (Exception e){
+            return new ResponseEntity<StandardResponse>(new StandardResponse(601, " Error  : ", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);//data ekak aluthen create karama create kiyala return karanawa
+        }
+    }
+
 }
