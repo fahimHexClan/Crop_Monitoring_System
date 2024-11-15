@@ -84,7 +84,7 @@ public class EquipmentController {
         try {
             EquipmentDTO equipmentDTO= equipmentService.getEquipmentById(equipmentId);
             if (equipmentDTO != null) {
-                return new ResponseEntity<StandardResponse>(new StandardResponse(200, "   Succesfully get Equipment by Id  ", equipmentId), HttpStatus.ACCEPTED);//data ekak aluthen get karama ok kiyala return karanawa
+                return new ResponseEntity<StandardResponse>(new StandardResponse(200, "   Succesfully get Equipment by Id  ", equipmentDTO), HttpStatus.ACCEPTED);//data ekak aluthen get karama ok kiyala return karanawa
 
             }else {
                 return new ResponseEntity<StandardResponse>(new StandardResponse(600, equipmentId + "  No Equipment is avilable on this id  : ", equipmentId), HttpStatus.BAD_REQUEST);//data ekak aluthen create karama create kiyala return karanawa

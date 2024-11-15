@@ -12,6 +12,8 @@ import lk.ijse.Crop_monitoring_system.Repository.FieldRepo;
 import lk.ijse.Crop_monitoring_system.Repository.StaffRepo;
 import lk.ijse.Crop_monitoring_system.Service.EquipmentService;
 import lk.ijse.Crop_monitoring_system.util.VarList;
+import lk.ijse.Crop_monitoring_system.util.mappers.EquipmentMapper;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +21,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class EquipmentImpl implements EquipmentService {
     @Autowired
     private EquipmentRepo equipmentRepo;
@@ -32,6 +36,7 @@ public class EquipmentImpl implements EquipmentService {
     @Autowired
     private FieldRepo fieldRepository;
 
+    private final EquipmentMapper equipmentMapper;
     @Override
     public String addEquipment(EquipmentDTO equipmentDTO) {
 
@@ -97,24 +102,57 @@ public class EquipmentImpl implements EquipmentService {
         }
     }
 
+//    @Override
+//    public List<EquipmentDTO> getAllEquipments() {
+//        List<EquipmentDTO> equipmentDTOList = new ArrayList<>();
+//        List<EquipmentEntity> equipmentEntityList = equipmentRepo.findAll();
+//        for(EquipmentEntity equipmentEntity : equipmentEntityList) {
+//            EquipmentDTO equipmentDTO =new EquipmentDTO(
+//                    equipmentEntity.getId(),
+//                    equipmentEntity.getName(),
+//                    equipmentEntity.getType(),
+//                    equipmentEntity.getStatus(),
+//                    equipmentEntity.getAssignedStaff().getId(),
+//                    equipmentEntity.getAssignedField().getFieldId()
+//            );
+//            equipmentDTOList.add(equipmentDTO);
+//        }
+//       return equipmentDTOList;
+//    }
+
     @Override
     public List<EquipmentDTO> getAllEquipments() {
         List<EquipmentEntity> equipmentEntityList = equipmentRepo.findAll();
-
-        return modelMapper.map(equipmentEntityList, new TypeToken<ArrayList<EquipmentDTO>>() {
-
-        }.getType());
+        List<EquipmentDTO> equipmentDTOList = equipmentMapper.entityListToDTOList(equipmentEntityList);
+        return equipmentDTOList;
     }
 
     @Override
     public EquipmentDTO getEquipmentById(Long equipmentId) {
         if (equipmentRepo.existsById(equipmentId)) {
-            EquipmentEntity equipmentEntity = equipmentRepo.findById(equipmentId).orElse(null);
-            return modelMapper.map(equipmentEntity, EquipmentDTO.class);
+            Optional<EquipmentEntity> byId = equipmentRepo.findById(equipmentId);
+            return equipmentMapper.entityToDTO(byId.get());
         } else {
             return null;
         }
     }
+
+//    @Override
+//    public EquipmentDTO getEquipmentById(Long equipmentId) {
+//        if (equipmentRepo.existsById(equipmentId)) {
+//            EquipmentEntity equipmentEntity = equipmentRepo.findById(equipmentId).orElse(null);
+//            return new EquipmentDTO(
+//                    equipmentEntity.getId(),
+//                    equipmentEntity.getName(),
+//                    equipmentEntity.getType(),
+//                    equipmentEntity.getStatus(),
+//                    equipmentEntity.getAssignedStaff().getId(),
+//                    equipmentEntity.getAssignedField().getFieldId()
+//            );
+//        } else {
+//            return null;
+//        }
+//    }
 
     @Override
     public String deleteEquipment(Long equipmentID) {

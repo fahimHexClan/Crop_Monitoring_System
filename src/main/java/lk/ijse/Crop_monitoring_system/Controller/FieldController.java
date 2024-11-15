@@ -20,8 +20,17 @@ public class FieldController {
 
     @PostMapping(path = ("/saveField"),consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> saveNote(@RequestBody FieldDTO fieldDTO) {
+    public ResponseEntity<?> saveNote(@RequestBody FieldDTO fieldDTO) {
         try {
+            fieldServise.saveField(fieldDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error saving field: " + e.getMessage());
+        }
+    }
+
+
+        /*try {
             fieldServise.saveField(fieldDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
 
@@ -32,7 +41,7 @@ public class FieldController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
+    }*/
 
 
     @GetMapping(path = ("/getAllField"),produces = MediaType.APPLICATION_JSON_VALUE)
