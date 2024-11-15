@@ -17,7 +17,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Staff")
-public class StaffEntity {
+public class StaffEntity implements SuperEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Staff_id")
@@ -75,6 +75,9 @@ public class StaffEntity {
 
     @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VehicleEntity> vehicles; //  Vehicles assigned to the staff member
+
+    @OneToMany(mappedBy = "assignedStaff")
+    private List<EquipmentEntity> equipments;
 }
 
 

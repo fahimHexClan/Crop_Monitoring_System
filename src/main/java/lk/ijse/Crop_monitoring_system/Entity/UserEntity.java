@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "User")
-public class UserEntity {
+public class UserEntity implements SuperEntity {
 
     @Id
     @Column(name = "Email_id" , length = 45)

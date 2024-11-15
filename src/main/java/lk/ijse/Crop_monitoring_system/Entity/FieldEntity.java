@@ -16,7 +16,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Field")
-public class FieldEntity {
+public class FieldEntity implements SuperEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Field_id")

@@ -21,7 +21,8 @@ public class Mapping {
     private ModelMapper modelMapper;
     //for user mapping
     private static final GeometryFactory geometryFactory = new GeometryFactory();
-//save
+
+    //save
     public FieldEntity toFieldEntity(FieldDTO fieldDTO) {
         FieldEntity fieldEntity = modelMapper.map(fieldDTO, FieldEntity.class);
 
@@ -48,11 +49,11 @@ public class Mapping {
         return fieldDTO;
     }
 
-//get all
+    //get all
     public List<FieldDTO> asFieldDTOList(List<FieldEntity> fieldEntities) {
 
-        return modelMapper.map(fieldEntities, new TypeToken<List<FieldDTO>>() {}.getType());
+        return modelMapper.map(fieldEntities, new TypeToken<List<FieldDTO>>() {
+        }.getType());
     }
-
 
 }

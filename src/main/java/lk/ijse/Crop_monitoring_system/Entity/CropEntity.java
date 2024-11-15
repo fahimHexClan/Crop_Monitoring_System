@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Crop")
-public class CropEntity {
+public class CropEntity implements SuperEntity{
     @Id
     @Column(name = "Crop_id" )
     @GeneratedValue(strategy = GenerationType.IDENTITY)

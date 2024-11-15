@@ -1,9 +1,6 @@
 package lk.ijse.Crop_monitoring_system.Dto;
 
-import jakarta.persistence.*;
-import lk.ijse.Crop_monitoring_system.Entity.CropEntity;
-import lk.ijse.Crop_monitoring_system.Entity.FieldEntity;
-import lk.ijse.Crop_monitoring_system.Entity.StaffEntity;
+import lk.ijse.Crop_monitoring_system.Dto.Status.MonitoringLogStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class MonitoringLogDTO {
+public class MonitoringLogDTO implements MonitoringLogStatus {
     private Long id;
     private Date logDate;
     private String logDetails;

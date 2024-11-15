@@ -50,7 +50,7 @@ public class FieldServiceImpl implements FieldServise {
         }else {
             fieldRepo.deleteById(fieldId);
         }
-}
+    }
 
     @Override
     public void updateField(Long fieldId, FieldDTO fieldDTO) throws ParseException {

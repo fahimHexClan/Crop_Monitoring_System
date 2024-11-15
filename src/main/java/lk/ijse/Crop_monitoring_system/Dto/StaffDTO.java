@@ -1,11 +1,9 @@
 package lk.ijse.Crop_monitoring_system.Dto;
 
-import jakarta.persistence.*;
+import lk.ijse.Crop_monitoring_system.Dto.Status.StaffStatus;
 import lk.ijse.Crop_monitoring_system.Entity.Enums.Designation;
 import lk.ijse.Crop_monitoring_system.Entity.Enums.Gender;
 import lk.ijse.Crop_monitoring_system.Entity.Enums.Role;
-import lk.ijse.Crop_monitoring_system.Entity.FieldEntity;
-import lk.ijse.Crop_monitoring_system.Entity.VehicleEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class StaffDTO {
+public class StaffDTO implements StaffStatus {
     private Long id;
     private String firstName;
     private String lastName;
@@ -34,4 +32,5 @@ public class StaffDTO {
     private Role role;
     private List<FieldDTO> fields;
     private List<VehicleDto> vehicles;
+    private List<EquipmentDTO> equipmentDTOS;
 }

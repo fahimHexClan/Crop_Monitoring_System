@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Equipment")
-public class EquipmentEntity {
+public class EquipmentEntity implements SuperEntity{
     @Id
     @Column(name = "Equipment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,11 +30,11 @@ public class EquipmentEntity {
     @Column(name = "Equipment_Status", nullable = false)
     private EquipmentStatus status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "staff_id")
     private StaffEntity assignedStaff;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "field_id")
     private FieldEntity assignedField;
 }
