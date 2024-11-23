@@ -3,6 +3,7 @@ package lk.ijse.Crop_monitoring_system.Controller;
 import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
 
 import lk.ijse.Crop_monitoring_system.Dto.StaffDTO;
+import lk.ijse.Crop_monitoring_system.Dto.Status.FieldStatus;
 import lk.ijse.Crop_monitoring_system.Exception.DataPersistException;
 import lk.ijse.Crop_monitoring_system.Service.FieldServise;
 import lk.ijse.Crop_monitoring_system.util.AppUtill;
@@ -106,6 +107,13 @@ public class FieldController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping(value = "/{FieldCode}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public FieldStatus getSelectedField(@PathVariable("FieldCode") Long fieldCode) {
+
+        return fieldServise.getField(fieldCode);
+    }
+
 
 
 }

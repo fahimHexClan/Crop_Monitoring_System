@@ -3,6 +3,7 @@ package lk.ijse.Crop_monitoring_system.Service.ServiceImpl;
 import jakarta.transaction.Transactional;
 import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
 import lk.ijse.Crop_monitoring_system.Dto.StaffDTO;
+import lk.ijse.Crop_monitoring_system.Dto.Status.FieldStatus;
 import lk.ijse.Crop_monitoring_system.Entity.FieldEntity;
 import lk.ijse.Crop_monitoring_system.Entity.StaffEntity;
 import lk.ijse.Crop_monitoring_system.Exception.DataPersistException;
@@ -89,6 +90,20 @@ public class FieldServiceImpl implements FieldServise {
             throw new DataPersistException("Field not found");
         } else {
             fieldRepo.deleteById(fieldCode);
+        }
+
+    }
+
+    @Override
+    public FieldStatus getField(Long fieldCode) {
+        // Fetch Field by ID and map to FieldDto
+        if (fieldRepo.existsById(fieldCode)) {
+            FieldEntity selectedField = fieldRepo.getReferenceById(fieldCode);
+            return mapping.toFieldDTO(selectedField);
+        } else {
+           /* return new SelectedErrorStatus(2, "Selected Field not found");*/
+            throw new DataPersistException("Field not found");
+
         }
 
     }
