@@ -81,6 +81,18 @@ public class FieldServiceImpl implements FieldServise {
 
     }
 
+    @Override
+    public void deletefield(Long fieldCode) {
+        // Check if the Field exists before deletion
+        Optional<FieldEntity> foundField = fieldRepo.findById(fieldCode);
+        if (!foundField.isPresent()) {
+            throw new DataPersistException("Field not found");
+        } else {
+            fieldRepo.deleteById(fieldCode);
+        }
+
+    }
+
 
 }
 

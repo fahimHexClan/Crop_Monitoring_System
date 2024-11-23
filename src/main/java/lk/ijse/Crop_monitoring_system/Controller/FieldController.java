@@ -92,6 +92,20 @@ public class FieldController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @DeleteMapping(value = "/{FieldCode}")
+    public ResponseEntity<Void> deleteField(@PathVariable("FieldCode") Long fieldCode) {
+        try {
+
+            fieldServise.deletefield(fieldCode);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (DataPersistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 }

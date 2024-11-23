@@ -10,4 +10,6 @@ public interface FieldServise {
      void SaveField(FieldDTO fieldDto);
 
     void updateField(Long fieldCode, FieldDTO updatedFieldDTO);
+
+    void deletefield(Long fieldCode);
 }
