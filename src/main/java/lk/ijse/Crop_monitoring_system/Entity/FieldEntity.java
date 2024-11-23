@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.locationtech.jts.geom.Point;
+import lombok.ToString;
 
 import java.awt.*;
 import java.util.List;
@@ -16,6 +16,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Field")
+@ToString
 public class FieldEntity implements SuperEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +26,7 @@ public class FieldEntity implements SuperEntity{
     @Column(name = "field_Name", nullable = false)
     private String fieldName;
 
-    @Column(name = "field_location",columnDefinition = "POINT", nullable = false)
+    @Column(name = "field_location")
     private Point location;//Point Data type useful for applications that need to work with geographic data such as mapping, location tracking, and spatial analysis.
 
     @Column(name = "field_extentSize", nullable = false)
@@ -38,10 +39,10 @@ public class FieldEntity implements SuperEntity{
     private String fieldImage2;
 
 
-    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CropEntity> crops; // Crops associated with this field
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(
             name = "field_staff_mapping",
             joinColumns = @JoinColumn(name = "field_id"),
@@ -49,4 +50,5 @@ public class FieldEntity implements SuperEntity{
     )
     private List<StaffEntity> staff; // Staff assigned to this field
 }
+
 

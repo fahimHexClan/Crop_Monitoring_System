@@ -6,11 +6,8 @@ import org.locationtech.jts.io.ParseException;
 import java.util.List;
 
 public interface FieldServise {
-    void saveField(FieldDTO fieldDTO);
 
-    List<FieldDTO> getAllField();
+     void SaveField(FieldDTO fieldDto);
 
-    void deletefield(Long fieldId);
-
-    void updateField(Long fieldId, FieldDTO fieldDTO) throws ParseException;
+    void updateField(Long fieldCode, FieldDTO updatedFieldDTO);
 }

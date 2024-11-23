@@ -33,7 +33,7 @@ public class MonitoringLogEntity implements SuperEntity {
     private String observedImage;
     //byte=Used to store  image ,pdf,word documents,audio ,video in databse
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(
             name = "log_field_mapping",
             joinColumns = @JoinColumn(name = "log_id"),
@@ -41,7 +41,7 @@ public class MonitoringLogEntity implements SuperEntity {
     )
     private List<FieldEntity> fields; // Fields associated with the log
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(
             name = "log_crop_mapping",
             joinColumns = @JoinColumn(name = "log_id"),
@@ -49,7 +49,7 @@ public class MonitoringLogEntity implements SuperEntity {
     )
     private List<CropEntity> crops; // Crops associated with the log
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(
             name = "log_staff_mapping",
             joinColumns = @JoinColumn(name = "log_id"),

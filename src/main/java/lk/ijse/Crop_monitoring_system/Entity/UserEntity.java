@@ -17,6 +17,8 @@ public class UserEntity implements SuperEntity {
     @Id
     @Column(name = "Email_id" , length = 45)
     private String email;
+    @Column(name = "User_Name" , length = 45)
+    private String username;
 
     @Column(name = "usr_password", nullable = false)
     private String password;

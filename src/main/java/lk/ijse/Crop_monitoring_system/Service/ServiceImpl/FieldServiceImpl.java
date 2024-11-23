@@ -1,22 +1,15 @@
 package lk.ijse.Crop_monitoring_system.Service.ServiceImpl;
 
 import jakarta.transaction.Transactional;
-import lk.ijse.Crop_monitoring_system.Dto.CropDTO;
 import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
 import lk.ijse.Crop_monitoring_system.Dto.StaffDTO;
-import lk.ijse.Crop_monitoring_system.Entity.CropEntity;
 import lk.ijse.Crop_monitoring_system.Entity.FieldEntity;
 import lk.ijse.Crop_monitoring_system.Entity.StaffEntity;
 import lk.ijse.Crop_monitoring_system.Exception.DataPersistException;
-import lk.ijse.Crop_monitoring_system.Exception.NoteNotFoundException;
-import lk.ijse.Crop_monitoring_system.Repository.CropRepo;
 import lk.ijse.Crop_monitoring_system.Repository.FieldRepo;
 import lk.ijse.Crop_monitoring_system.Repository.StaffRepo;
 import lk.ijse.Crop_monitoring_system.Service.FieldServise;
 import lk.ijse.Crop_monitoring_system.util.Mapping;
-import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.io.ParseException;
-import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,91 +26,61 @@ public class FieldServiceImpl implements FieldServise {
     private Mapping mapping;
     @Autowired
     private StaffRepo staffRepo;
-    @Autowired
-    private CropRepo cropRepo;
 
 
     @Override
-    public void saveField(FieldDTO fieldDTO) {
-        /*List<StaffEntity> staffEntityList= new ArrayList<>();
-        FieldEntity savedField = new FieldEntity();
+    public void SaveField(FieldDTO fieldDto) {
+        // Map FieldDto to Field entity
+        FieldEntity fieldEntity = mapping.toFieldEntity(fieldDto);
 
-        for(StaffDTO staffDTO: fieldDTO.getStaff()){
-            staffEntityList.add(staffRepo.findById(staffDTO.getId()).get());
-        }
-        savedField.setStaff(staffEntityList);
-
-        fieldRepo.save(savedField);
-        List<StaffEntity> staff = savedField.getStaff();
-        List<StaffDTO> staffDTOList = new ArrayList<>();
-        for(StaffEntity staffEntity: staff){
-            StaffDTO staffDTO = new StaffDTO();
-            staffDTO.setId(staffEntity.getId());
-            staffDTOList.add(staffDTO);
-        }
-
-
-//                this.fieldRepo.save(mapping.toFieldEntity(fieldDTO));
-        if(savedField == null){
-            throw new DataPersistException("Note not saved");
-        }
-    }*/
-        // Convert DTO to FieldEntity
-        FieldEntity fieldEntity = mapping.toFieldEntity(fieldDTO);
-        fieldRepo.save(fieldEntity);
-
-        // Handle crops and staff
-        for (CropDTO cropDTO : fieldDTO.getCrops()) {
-            CropEntity cropEntity = mapping.toCropEntity(cropDTO);
-            // Check if crop already exists, if not, save it
-            if (cropRepo.existsById(cropEntity.getId())) {
-                cropRepo.save(cropEntity);
+        // Handle Many-to-Many relationship with Staffs
+        List<StaffEntity> staffEntities = new ArrayList<>();
+        if (fieldDto.getStaff() != null) {
+            for (StaffDTO staffDto : fieldDto.getStaff()) {
+                StaffEntity staff = staffRepo.findById(staffDto.getId()).orElseThrow(() -> new DataPersistException("Staff not found with ID: " + staffDto.getId()));
+                staffEntities.add(staff);
             }
         }
+        fieldEntity.setStaff(staffEntities);
 
-        for (StaffDTO staffDTO : fieldDTO.getStaff()) {
-            StaffEntity staffEntity = mapping.toStaffEntity(staffDTO);
-            // Check if staff already exists, if not, save it
-            if (staffRepo.existsById(staffEntity.getId())) {
-                staffRepo.save(staffEntity);
+        // Save Field entity
+        FieldEntity savedField = fieldRepo.save(fieldEntity);
+        if (savedField == null) {
+            throw new DataPersistException("Field not saved");
+        }
+    }
+
+    @Override
+    public void updateField(Long fieldCode, FieldDTO updatedFieldDTO) {
+        // Fetch Field by ID and update its details
+        Optional<FieldEntity> findField = fieldRepo.findById(fieldCode);
+        if (!findField.isPresent()) {
+            throw new DataPersistException("Field not found"+fieldCode);
+        } else {
+            FieldEntity field = findField.get();
+            field.setLocation(updatedFieldDTO.getFieldLocation());
+            field.setFieldName(updatedFieldDTO.getFieldName());
+            field.setExtentSize(updatedFieldDTO.getExtentSize());
+            field.setFieldImage1(updatedFieldDTO.getFieldImage1());
+            field.setFieldImage2(updatedFieldDTO.getFieldImage2());
+
+            // Update Many-to-Many relationship with Staffs
+            List<StaffEntity> staffs = new ArrayList<>();
+            if (updatedFieldDTO.getStaff() != null) {
+                for (StaffDTO staffDto : updatedFieldDTO.getStaff()) {
+                    StaffEntity staff = staffRepo.findById(staffDto.getId())
+                            .orElseThrow(() -> new DataPersistException("Staff not found with ID: " + staffDto.getId()));
+                    staffs.add(staff);
+                }
             }
-        }
-    }
-    @Override
-    public List<FieldDTO> getAllField() {
-        List<FieldEntity> allUsers = fieldRepo.findAll();
-        return mapping.asFieldDTOList(allUsers);
-    }
+            field.setStaff(staffs);
 
-    @Override
-    public void deletefield(Long fieldId) {
-        Optional<FieldEntity> foundNote = fieldRepo.findById(fieldId);
-        if (!foundNote.isPresent()) {
-            throw new NoteNotFoundException("Note not found");
-        }else {
-            fieldRepo.deleteById(fieldId);
-        }
-    }
-
-    @Override
-    public void updateField(Long fieldId, FieldDTO fieldDTO) throws ParseException {
-            FieldEntity existingField = fieldRepo.findById(fieldId)
-                    .orElseThrow(() -> new NoteNotFoundException("Field not found"));
-
-            existingField.setFieldName(fieldDTO.getFieldName());
-
-            // Convert LocationDTO to Point using WKT string
-            if (fieldDTO.getLocation() != null) {
-                String locationWKT = "POINT (" + fieldDTO.getLocation().getLongitude() + " " + fieldDTO.getLocation().getLatitude() + ")";
-                Point locationPoint = (Point) new WKTReader().read(locationWKT);
-                existingField.setLocation(locationPoint);
-            }
-
-            existingField.setExtentSize(fieldDTO.getExtentSize());
-            existingField.setFieldImage1(fieldDTO.getFieldImage1());
-            existingField.setFieldImage2(fieldDTO.getFieldImage2());
-
-            fieldRepo.save(existingField);
+            // Save updated Field entity
+            fieldRepo.save(field);
         }
 
     }
+
+
+}
+
