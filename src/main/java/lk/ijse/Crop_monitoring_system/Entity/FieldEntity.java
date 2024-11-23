@@ -39,7 +39,7 @@ public class FieldEntity implements SuperEntity{
     private String fieldImage2;
 
 
-    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<CropEntity> crops; // Crops associated with this field
 
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})

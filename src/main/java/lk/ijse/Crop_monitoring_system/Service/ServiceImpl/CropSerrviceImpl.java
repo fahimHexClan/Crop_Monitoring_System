@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -49,5 +50,18 @@ public class CropSerrviceImpl implements CropService {
             cropRepo.save(cropEntity);
         } catch (Exception e) {
             throw new DataPersistException("Crop could not be saved: " + e.getMessage(), e);
+        }}
+
+    @Override
+    public void deleteCrop(Long cropCode) {
+        // Check if the Field exists before deletion
+        Optional<CropEntity> foundCrop = cropRepo.findById(cropCode);
+        if (foundCrop.isEmpty()) {
+            throw new DataPersistException("Crop not found with ID: " + cropCode);
+        }
+        try {
+            cropRepo.delete(foundCrop.get());
+        } catch (Exception e) {
+            throw new DataPersistException("Failed to delete crop with ID: " + cropCode, e);
         }}
 }

@@ -76,6 +76,7 @@ public class FieldController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @PutMapping(value = "/{FieldCode}")
     public ResponseEntity<Void> updateField(@PathVariable("FieldCode") Long fieldCode,
                                             @RequestBody FieldDTO updatedFieldDTO) {

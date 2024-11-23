@@ -59,5 +59,20 @@ public class CropController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @DeleteMapping(value = "/{CropCode}")
+    public ResponseEntity<Void> deleteCrop(@PathVariable("CropCode") Long cropCode) {
+        try {
+
+            cropService.deleteCrop(cropCode);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (DataPersistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }
