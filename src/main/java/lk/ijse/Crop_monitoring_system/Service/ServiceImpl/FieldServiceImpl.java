@@ -108,6 +108,11 @@ public class FieldServiceImpl implements FieldServise {
 
     }
 
+    @Override
+    public List<FieldDTO> getAllField() {
+        return mapping.asFieldDTOList(fieldRepo.findAll());
+    }
+
 
 }
 

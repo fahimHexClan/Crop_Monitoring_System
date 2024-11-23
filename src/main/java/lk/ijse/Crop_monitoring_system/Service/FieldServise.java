@@ -15,4 +15,6 @@ public interface FieldServise {
     void deletefield(Long fieldCode);
 
     FieldStatus getField(Long fieldCode);
+
+    List<FieldDTO> getAllField();
 }
