@@ -1,5 +1,6 @@
 package lk.ijse.Crop_monitoring_system.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lk.ijse.Crop_monitoring_system.Entity.Enums.Designation;
 import lk.ijse.Crop_monitoring_system.Entity.Enums.Gender;
@@ -72,42 +73,14 @@ public class StaffEntity implements SuperEntity{
     private Role role;
 
     @ManyToMany(mappedBy = "staff", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    private List<FieldEntity> fields = new ArrayList<>();
+    @JsonBackReference
+    private List<FieldEntity> fields;
 
     @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<VehicleEntity> vehicles= new ArrayList<>(); //  Vehicles assigned to the staff member
+    private List<VehicleEntity> vehicles; //  Vehicles assigned to the staff member
 
     @OneToMany(mappedBy = "assignedStaff",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<EquipmentEntity> equipments= new ArrayList<>();
+    private List<EquipmentEntity> equipments;
 
-    public void addField(FieldEntity field) {
-        this.fields.add(field);
-        field.getStaff().add(this);
-    }
-
-    public void removeField(FieldEntity field) {
-        this.fields.remove(field);
-        field.getStaff().remove(this);
-    }
-
-    public void addVehicle(VehicleEntity vehicle) {
-        this.vehicles.add(vehicle);
-        vehicle.setStaff(this);
-    }
-
-    public void removeVehicle(VehicleEntity vehicle) {
-        this.vehicles.remove(vehicle);
-        vehicle.setStaff(null);
-    }
-
-    public void addEquipment(EquipmentEntity equipment) {
-        this.equipments.add(equipment);
-        equipment.setAssignedStaff(this);
-    }
-
-    public void removeEquipment(EquipmentEntity equipment) {
-        this.equipments.remove(equipment);
-        equipment.setAssignedStaff(null);
-    }
-}
+   }
 

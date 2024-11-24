@@ -1,5 +1,6 @@
 package lk.ijse.Crop_monitoring_system.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -49,17 +50,9 @@ public class FieldEntity implements SuperEntity{
             joinColumns = @JoinColumn(name = "field_id"),
             inverseJoinColumns = @JoinColumn(name = "staff_id")
     )
+    @JsonManagedReference
     private List<StaffEntity> staff= new ArrayList<>(); // Staff assigned to this field
-    // Helper method to add staff and maintain bidirectional relationship
-    public void addStaff(StaffEntity staffMember) {
-        this.staff.add(staffMember);
-        staffMember.getFields().add(this);
-    }
 
-    public void removeStaff(StaffEntity staffMember) {
-        this.staff.remove(staffMember);
-        staffMember.getFields().remove(this);
-    }
 
 }
 

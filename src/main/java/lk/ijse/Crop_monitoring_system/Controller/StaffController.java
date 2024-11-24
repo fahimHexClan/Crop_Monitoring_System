@@ -16,22 +16,20 @@ public class StaffController {
     @Autowired
     private StaffService staffService;
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> saveStaff(@RequestBody StaffDTO staffDTO) {
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+
+    public ResponseEntity<Void> saveStaff(@RequestBody StaffDTO staffDto) {
         try {
-            if (staffDTO.getStaffCode() == 0) {
-                // Assume staffCode == 0 means it's a new staff member
-                staffService.saveStaff(staffDTO);
-                return new ResponseEntity<>("Staff member created successfully", HttpStatus.CREATED);
-            } else {
-                // If staffCode is present, update the staff member
-                staffService.updateStaff(staffDTO.getStaffCode(), staffDTO);
-                return new ResponseEntity<>("Staff member updated successfully", HttpStatus.OK);
-            }
-        } catch (DataPersistException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Internal server error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+            staffService.saveStaff(staffDto);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }catch (DataPersistException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
