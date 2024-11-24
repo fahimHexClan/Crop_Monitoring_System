@@ -72,7 +72,7 @@ public class StaffEntity implements SuperEntity{
     private Role role;
 
     @ManyToMany(mappedBy = "staff", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<FieldEntity> fields;
+    private List<FieldEntity> fields = new ArrayList<>();
 
     @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VehicleEntity> vehicles; //  Vehicles assigned to the staff member
@@ -80,7 +80,15 @@ public class StaffEntity implements SuperEntity{
     @OneToMany(mappedBy = "assignedStaff",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EquipmentEntity> equipments;
 
+    public void addField(FieldEntity field) {
+        this.fields.add(field);
+        field.getStaff().add(this);
+    }
 
+    public void removeField(FieldEntity field) {
+        this.fields.remove(field);
+        field.getStaff().remove(this);
+    }
 }
 
 

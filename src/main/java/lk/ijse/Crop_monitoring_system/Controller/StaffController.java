@@ -1,12 +1,9 @@
 package lk.ijse.Crop_monitoring_system.Controller;
 
-import lk.ijse.Crop_monitoring_system.Dto.EquipmentDTO;
-import lk.ijse.Crop_monitoring_system.Dto.ResponseDto.StandardResponse;
 import lk.ijse.Crop_monitoring_system.Dto.StaffDTO;
 import lk.ijse.Crop_monitoring_system.Exception.DataPersistException;
 import lk.ijse.Crop_monitoring_system.Service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,27 +16,39 @@ public class StaffController {
     @Autowired
     private StaffService staffService;
 
-    @PostMapping(path = "/saveStaff",produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<StandardResponse> saveStaff(@RequestBody StaffDTO staffDTO) {
-
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> saveStaff(@RequestBody StaffDTO staffDTO) {
         try {
-            String id = staffService.saveStaff(staffDTO);
-            if (id.equals("00")) {//VarList eke aapu data tika thama mekata dala thiyanne
-
-                return new ResponseEntity<StandardResponse>(new StandardResponse(201, id + "  Staff Succesfully saved  : ", id), HttpStatus.CREATED//data ekak aluthen create karama create kiyala return karanawa
-                );//return type eka ResponseEntity dila genaric eke api create karapu StandardResponseclass eka dala
-                // a class eke attributes tika fill karala okkoma create unama created kiyana eka danawa
-            } else if (id.equals("06")) {
-                return new ResponseEntity<StandardResponse>(new StandardResponse(401, id + "  Staff Not saved  : ", id), HttpStatus.BAD_REQUEST//data ekak aluthen create karama create kiyala return karanawa
-                );
+            if (staffDTO.getStaffCode() == 0) {
+                // Assume staffCode == 0 means it's a new staff member
+                staffService.saveStaff(staffDTO);
+                return new ResponseEntity<>("Staff member created successfully", HttpStatus.CREATED);
             } else {
-                return new ResponseEntity<StandardResponse>(new StandardResponse(501, id + " Error  : ", id), HttpStatus.BAD_REQUEST//data ekak aluthen create karama create kiyala return karanawa
-                );
+                // If staffCode is present, update the staff member
+                staffService.updateStaff(staffDTO.getStaffCode(), staffDTO);
+                return new ResponseEntity<>("Staff member updated successfully", HttpStatus.OK);
             }
+        } catch (DataPersistException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (Exception e) {
-            return new ResponseEntity<StandardResponse>(new StandardResponse(601, " Error  : ", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);//data ekak aluthen create karama create kiyala return karanawa
+            return new ResponseEntity<>("Internal server error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    @PutMapping(value = "/{staffCode}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updateStaff(@PathVariable("staffCode") Long staffCode, @RequestBody StaffDTO updatedStaffDTO) {
+        try {
+            if (staffCode == null || updatedStaffDTO == null) {
+                return new ResponseEntity<>("Invalid input data", HttpStatus.BAD_REQUEST);
+            }
+            staffService.updateStaff(staffCode, updatedStaffDTO);
+            return new ResponseEntity<>("Staff member updated successfully", HttpStatus.NO_CONTENT);
+        } catch (DataPersistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Internal server error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
-

@@ -49,9 +49,17 @@ public class FieldEntity implements SuperEntity{
             joinColumns = @JoinColumn(name = "field_id"),
             inverseJoinColumns = @JoinColumn(name = "staff_id")
     )
-    private List<StaffEntity> staff; // Staff assigned to this field
+    private List<StaffEntity> staff= new ArrayList<>(); // Staff assigned to this field
     // Helper method to add staff and maintain bidirectional relationship
+    public void addStaff(StaffEntity staffMember) {
+        this.staff.add(staffMember);
+        staffMember.getFields().add(this);
+    }
 
+    public void removeStaff(StaffEntity staffMember) {
+        this.staff.remove(staffMember);
+        staffMember.getFields().remove(this);
+    }
 
 }
 

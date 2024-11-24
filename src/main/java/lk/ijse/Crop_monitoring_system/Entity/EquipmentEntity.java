@@ -31,7 +31,7 @@ public class EquipmentEntity implements SuperEntity{
     private EquipmentStatus status;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "staff_id")
+    @JoinColumn(name = "staff_id",nullable = false)
     private StaffEntity assignedStaff;
 
     @ManyToOne(fetch = FetchType.EAGER)

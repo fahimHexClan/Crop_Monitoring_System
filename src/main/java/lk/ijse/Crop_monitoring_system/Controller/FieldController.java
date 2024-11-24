@@ -47,7 +47,7 @@ public class FieldController {
             if (fieldStaffIds != null && !fieldStaffIds.isEmpty()) {
                 for (Long staffId : fieldStaffIds) {
                     StaffDTO staffDto = new StaffDTO();
-                    staffDto.setId(staffId);
+                    staffDto.setStaffCode(staffId);
                     staffDtos.add(staffDto);
                 }
             }

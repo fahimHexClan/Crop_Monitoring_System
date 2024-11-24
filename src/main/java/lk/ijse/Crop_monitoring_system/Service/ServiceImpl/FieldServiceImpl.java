@@ -30,26 +30,26 @@ public class FieldServiceImpl implements FieldServise {
 
 
     @Override
+    @Transactional
     public void SaveField(FieldDTO fieldDto) {
         FieldEntity fieldEntity = mapping.toFieldEntity(fieldDto);
 
         // Handle Many-to-Many relationship with Staff
-        List<StaffEntity> staffEntities = new ArrayList<>();
         if (fieldDto.getStaff() != null && !fieldDto.getStaff().isEmpty()) {
             for (StaffDTO staffDto : fieldDto.getStaff()) {
-                StaffEntity staffEntity = staffRepo.findById(staffDto.getId())
-                        .orElseThrow(() -> new DataPersistException("Staff not found with ID: " + staffDto.getId()));
-                staffEntities.add(staffEntity);
+                StaffEntity staffEntity = staffRepo.findById(staffDto.getStaffCode())
+                        .orElseThrow(() -> new DataPersistException("Staff not found with ID: " + staffDto.getStaffCode()));
+
+                // Step 4: Use the helper method to maintain both sides of the relationship
+                fieldEntity.addStaff(staffEntity);
             }
-            fieldEntity.setStaff(staffEntities);
         }
 
         // Save Field entity and ensure it is attached to the persistence context
         fieldRepo.saveAndFlush(fieldEntity);
     }
 
-
-        @Override
+    @Override
     public void updateField(Long fieldCode, FieldDTO updatedFieldDTO) {
         Optional<FieldEntity> findField = fieldRepo.findById(fieldCode);
         if (!findField.isPresent()) {

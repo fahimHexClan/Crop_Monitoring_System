@@ -35,9 +35,13 @@ public class CropSerrviceImpl implements CropService {
             // Map CropDTO to CropEntity
             CropEntity cropEntity = mapping.toCropEntity(cropDto);
 
+            // Ensure the ID is null for a new entity
+            cropEntity.setId(null);
+
             // If there's a field associated, set it
             if (cropDto.getFieldId() != null) {
-                FieldEntity fieldEntity = fieldRepo.findById(cropDto.getFieldId()).orElseThrow(() -> new DataPersistException("Field not found with ID: " + cropDto.getFieldId()));
+                FieldEntity fieldEntity = fieldRepo.findById(cropDto.getFieldId())
+                        .orElseThrow(() -> new DataPersistException("Field not found with ID: " + cropDto.getFieldId()));
                 cropEntity.setField(fieldEntity);
             }
 
