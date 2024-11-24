@@ -33,8 +33,14 @@ public class Mapping {
         return modelMapper.map(fieldList, new TypeToken<List<FieldDTO>>() {}.getType());
     }
 
+
+
     public CropEntity toCropEntity(CropDTO cropDto) {
         return modelMapper.map(cropDto, CropEntity.class);
     }
+    public CropDTO toCropDTO(CropEntity crop) {
+        return modelMapper.map(crop, CropDTO.class);
+    }
+
 
 }

@@ -53,10 +53,9 @@ public class FieldServiceImpl implements FieldServise {
 
     @Override
     public void updateField(Long fieldCode, FieldDTO updatedFieldDTO) {
-        // Fetch Field by ID and update its details
         Optional<FieldEntity> findField = fieldRepo.findById(fieldCode);
         if (!findField.isPresent()) {
-            throw new DataPersistException("Field not found"+fieldCode);
+            throw new DataPersistException("Field not found: " + fieldCode);
         } else {
             FieldEntity field = findField.get();
             field.setLocation(updatedFieldDTO.getFieldLocation());
@@ -79,9 +78,7 @@ public class FieldServiceImpl implements FieldServise {
             // Save updated Field entity
             fieldRepo.save(field);
         }
-
     }
-
     @Override
     public void deletefield(Long fieldCode) {
         // Check if the Field exists before deletion
@@ -110,9 +107,12 @@ public class FieldServiceImpl implements FieldServise {
 
     @Override
     public List<FieldDTO> getAllField() {
-        return mapping.asFieldDTOList(fieldRepo.findAll());
+        List<FieldEntity> fields = fieldRepo.findAll();
+        if (fields.isEmpty()) {
+            throw new DataPersistException("No fields found");
+        }
+        return mapping.asFieldDTOList(fields);
     }
-
 
 }
 

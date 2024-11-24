@@ -1,8 +1,8 @@
 package lk.ijse.Crop_monitoring_system.Controller;
 
 import lk.ijse.Crop_monitoring_system.Dto.CropDTO;
-import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
-import lk.ijse.Crop_monitoring_system.Dto.StaffDTO;
+import lk.ijse.Crop_monitoring_system.Dto.Status.CropStatus;
+import lk.ijse.Crop_monitoring_system.Dto.Status.FieldStatus;
 import lk.ijse.Crop_monitoring_system.Exception.DataPersistException;
 import lk.ijse.Crop_monitoring_system.Service.CropService;
 import lk.ijse.Crop_monitoring_system.util.AppUtill;
@@ -13,10 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-
 @RestController
 @RequestMapping("api/v1/Crop")
 @CrossOrigin
@@ -25,14 +21,7 @@ public class CropController {
     private CropService cropService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> saveCrop(
-            @RequestParam("cropCode") Long cropCode,
-            @RequestParam("commonName") String commonName,
-            @RequestParam("scientificName") String scientificName,
-            @RequestParam("cropImage") MultipartFile cropImage,
-            @RequestParam("category") String category,
-            @RequestParam("season") String season,
-            @RequestParam(value = "Crop_Field", required = false) Long fieldId) {
+    public ResponseEntity<Void> saveCrop(@RequestParam("cropCode") Long cropCode, @RequestParam("commonName") String commonName, @RequestParam("scientificName") String scientificName, @RequestParam("cropImage") MultipartFile cropImage, @RequestParam("category") String category, @RequestParam("season") String season, @RequestParam(value = "Crop_Field", required = false) Long fieldId) {
         try {
             // Convert image file to Base64 string
             String base64Image = AppUtill.ImageToBase64(cropImage.getBytes());
@@ -59,6 +48,7 @@ public class CropController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @DeleteMapping(value = "/{CropCode}")
     public ResponseEntity<Void> deleteCrop(@PathVariable("CropCode") Long cropCode) {
         try {
@@ -73,6 +63,10 @@ public class CropController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping(value = "/{cropCode}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public CropStatus getSelectedCrop(@PathVariable("cropCode") Long cropCode) {
 
+        return cropService.getCrop(cropCode);
+    }
 
 }
