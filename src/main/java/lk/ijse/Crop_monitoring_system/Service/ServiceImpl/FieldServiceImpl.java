@@ -64,16 +64,7 @@ public class FieldServiceImpl implements FieldServise {
             field.setFieldImage1(updatedFieldDTO.getFieldImage1());
             field.setFieldImage2(updatedFieldDTO.getFieldImage2());
 
-            // Update Many-to-Many relationship with Staffs
-            List<StaffEntity> staffs = new ArrayList<>();
-            if (updatedFieldDTO.getStaff() != null) {
-                for (StaffDTO staffDto : updatedFieldDTO.getStaff()) {
-                    StaffEntity staff = staffRepo.findById(staffDto.getId())
-                            .orElseThrow(() -> new DataPersistException("Staff not found with ID: " + staffDto.getId()));
-                    staffs.add(staff);
-                }
-            }
-            field.setStaff(staffs);
+
 
             // Save updated Field entity
             fieldRepo.save(field);
