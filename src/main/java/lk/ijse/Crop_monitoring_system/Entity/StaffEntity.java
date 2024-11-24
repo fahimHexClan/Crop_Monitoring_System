@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -70,7 +71,7 @@ public class StaffEntity implements SuperEntity{
     @Column(name = "staff_role")
     private Role role;
 
-    @ManyToMany(mappedBy = "staff")
+    @ManyToMany(mappedBy = "staff", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<FieldEntity> fields;
 
     @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -78,6 +79,8 @@ public class StaffEntity implements SuperEntity{
 
     @OneToMany(mappedBy = "assignedStaff",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EquipmentEntity> equipments;
+
+
 }
 
 

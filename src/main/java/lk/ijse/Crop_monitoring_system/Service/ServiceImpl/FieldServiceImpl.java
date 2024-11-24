@@ -31,27 +31,25 @@ public class FieldServiceImpl implements FieldServise {
 
     @Override
     public void SaveField(FieldDTO fieldDto) {
-        // Map FieldDto to Field entity
         FieldEntity fieldEntity = mapping.toFieldEntity(fieldDto);
 
-        // Handle Many-to-Many relationship with Staffs
+        // Handle Many-to-Many relationship with Staff
         List<StaffEntity> staffEntities = new ArrayList<>();
-        if (fieldDto.getStaff() != null) {
+        if (fieldDto.getStaff() != null && !fieldDto.getStaff().isEmpty()) {
             for (StaffDTO staffDto : fieldDto.getStaff()) {
-                StaffEntity staff = staffRepo.findById(staffDto.getId()).orElseThrow(() -> new DataPersistException("Staff not found with ID: " + staffDto.getId()));
-                staffEntities.add(staff);
+                StaffEntity staffEntity = staffRepo.findById(staffDto.getId())
+                        .orElseThrow(() -> new DataPersistException("Staff not found with ID: " + staffDto.getId()));
+                staffEntities.add(staffEntity);
             }
+            fieldEntity.setStaff(staffEntities);
         }
-        fieldEntity.setStaff(staffEntities);
 
-        // Save Field entity
-        FieldEntity savedField = fieldRepo.save(fieldEntity);
-        if (savedField == null) {
-            throw new DataPersistException("Field not saved");
-        }
+        // Save Field entity and ensure it is attached to the persistence context
+        fieldRepo.saveAndFlush(fieldEntity);
     }
 
-    @Override
+
+        @Override
     public void updateField(Long fieldCode, FieldDTO updatedFieldDTO) {
         Optional<FieldEntity> findField = fieldRepo.findById(fieldCode);
         if (!findField.isPresent()) {
