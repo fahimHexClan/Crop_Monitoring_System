@@ -12,4 +12,6 @@ public interface CropService {
 
     CropStatus getCrop(Long cropCode);
 
+    void updateCrop(Long cropCode, CropDTO updateCropDTO);
 }
+

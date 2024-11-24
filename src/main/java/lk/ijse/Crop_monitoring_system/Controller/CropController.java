@@ -1,6 +1,7 @@
 package lk.ijse.Crop_monitoring_system.Controller;
 
 import lk.ijse.Crop_monitoring_system.Dto.CropDTO;
+import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
 import lk.ijse.Crop_monitoring_system.Dto.Status.CropStatus;
 import lk.ijse.Crop_monitoring_system.Exception.DataPersistException;
 import lk.ijse.Crop_monitoring_system.Service.CropService;
@@ -66,6 +67,23 @@ public class CropController {
     public CropStatus getSelectedCrop(@PathVariable("cropCode") Long cropCode) {
 
         return cropService.getCrop(cropCode);
+    }
+    @PutMapping(value = "/{CropCode}")
+    public ResponseEntity<Void> updateCrop(@PathVariable("CropCode") Long cropCode,
+                                            @RequestBody CropDTO updateCropDTO) {
+        try {
+            if (cropCode == null || updateCropDTO == null) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            cropService.updateCrop(cropCode, updateCropDTO);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (DataPersistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

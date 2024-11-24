@@ -71,4 +71,29 @@ public class CropSerrviceImpl implements CropService {
         }
 
     }
+
+    @Override
+    public void updateCrop(Long cropCode, CropDTO updateCropDTO) {
+        Optional<CropEntity> findCrop = cropRepo.findById(cropCode);
+        if (!findCrop.isPresent()) {
+            throw new DataPersistException("Field not found: " + cropCode);
+        } else {
+            CropEntity crop = findCrop.get();
+            crop.setCommonName(updateCropDTO.getCommonName());
+            crop.setScientificName(updateCropDTO.getScientificName());
+            crop.setCropImage(updateCropDTO.getCropImage());
+            crop.setCategory(updateCropDTO.getCategory());
+            crop.setSeason(updateCropDTO.getSeason());
+
+            if (updateCropDTO.getFieldId() != null) {
+                FieldEntity fieldEntity = fieldRepo.findById(updateCropDTO.getFieldId())
+                        .orElseThrow(() -> new DataPersistException("Field not found with ID: " + updateCropDTO.getFieldId()));
+                crop.setField(fieldEntity);
+            }
+
+
+            // Save updated Field entity
+            cropRepo.save(crop);
+        }
+    }
 }

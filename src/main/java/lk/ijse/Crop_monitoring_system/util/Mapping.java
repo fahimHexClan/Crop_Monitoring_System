@@ -3,7 +3,6 @@ package lk.ijse.Crop_monitoring_system.util;
 import jakarta.annotation.PostConstruct;
 import lk.ijse.Crop_monitoring_system.Dto.CropDTO;
 import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
-import lk.ijse.Crop_monitoring_system.Dto.Status.FieldStatus;
 import lk.ijse.Crop_monitoring_system.Entity.CropEntity;
 import lk.ijse.Crop_monitoring_system.Entity.FieldEntity;
 import org.modelmapper.ModelMapper;
@@ -20,7 +19,7 @@ public class Mapping {
     private ModelMapper modelMapper;
 
     @PostConstruct
-    public void configureMappings() {
+    public void getidCropconfigureMappings() {
         // Custom configuration for mapping CropEntity to CropDTO
         modelMapper.typeMap(CropEntity.class, CropDTO.class).addMappings(mapper -> {
             mapper.map(src -> src.getField().getFieldId(), CropDTO::setFieldId);  // Custom mapping for fieldId
