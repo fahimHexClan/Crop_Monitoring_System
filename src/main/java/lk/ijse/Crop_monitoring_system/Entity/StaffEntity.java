@@ -24,26 +24,26 @@ public class StaffEntity implements SuperEntity{
     @Column(name = "Staff_id")
     private Long id;
 
-    @Column(name = "Staff_first_Name", nullable = false)
+    @Column(name = "Staff_first_Name")
     private String firstName;
 
-    @Column(name = "Staff_last_Name", nullable = false)
+    @Column(name = "Staff_last_Name")
     private String lastName;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Staff_designation", nullable = false)
+    @Column(name = "Staff_designation")
     private Designation designation;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "staff_gender", nullable = false)
+    @Column(name = "staff_gender")
     private Gender gender;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "staff_joined_Date", nullable = false)
+    @Column(name = "staff_joined_Date")
     private Date joinedDate;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "staff_dob", nullable = false)
+    @Column(name = "staff_dob")
     private Date dob;
 
     @Column(name = "staff_addressLine1")
@@ -61,24 +61,24 @@ public class StaffEntity implements SuperEntity{
     @Column(name = "staff_addressLine5")
     private String addressLine5;
 
-    @Column(name = "staff_contactNo", nullable = false)
+    @Column(name = "staff_contactNo")
     private String contactNo;
 
-    @Column(name = "staff_email", nullable = false, unique = true)
+    @Column(name = "staff_email", unique = true)
     private String email;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "staff_role")
     private Role role;
 
-    @ManyToMany(mappedBy = "staff", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "staff", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private List<FieldEntity> fields = new ArrayList<>();
 
     @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<VehicleEntity> vehicles; //  Vehicles assigned to the staff member
+    private List<VehicleEntity> vehicles= new ArrayList<>(); //  Vehicles assigned to the staff member
 
     @OneToMany(mappedBy = "assignedStaff",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<EquipmentEntity> equipments;
+    private List<EquipmentEntity> equipments= new ArrayList<>();
 
     public void addField(FieldEntity field) {
         this.fields.add(field);
@@ -89,6 +89,25 @@ public class StaffEntity implements SuperEntity{
         this.fields.remove(field);
         field.getStaff().remove(this);
     }
-}
 
+    public void addVehicle(VehicleEntity vehicle) {
+        this.vehicles.add(vehicle);
+        vehicle.setStaff(this);
+    }
+
+    public void removeVehicle(VehicleEntity vehicle) {
+        this.vehicles.remove(vehicle);
+        vehicle.setStaff(null);
+    }
+
+    public void addEquipment(EquipmentEntity equipment) {
+        this.equipments.add(equipment);
+        equipment.setAssignedStaff(this);
+    }
+
+    public void removeEquipment(EquipmentEntity equipment) {
+        this.equipments.remove(equipment);
+        equipment.setAssignedStaff(null);
+    }
+}
 

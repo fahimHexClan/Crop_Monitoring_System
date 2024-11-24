@@ -61,10 +61,10 @@ public class FieldController {
             fieldDto.setExtentSize(extentSize);
             fieldDto.setFieldImage1(base64ImageOne);
             fieldDto.setFieldImage2(base64ImageTwo);
-           // fieldDto.setStaff(staffDtos);
+            fieldDto.setStaff(staffDtos);
 
             // Save the field
-            System.out.println(fieldDto.toString()) ;
+
             fieldServise.SaveField(fieldDto);
 
             return new ResponseEntity<>(HttpStatus.CREATED);

@@ -3,8 +3,10 @@ package lk.ijse.Crop_monitoring_system.util;
 import jakarta.annotation.PostConstruct;
 import lk.ijse.Crop_monitoring_system.Dto.CropDTO;
 import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
+import lk.ijse.Crop_monitoring_system.Dto.StaffDTO;
 import lk.ijse.Crop_monitoring_system.Entity.CropEntity;
 import lk.ijse.Crop_monitoring_system.Entity.FieldEntity;
+import lk.ijse.Crop_monitoring_system.Entity.StaffEntity;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,10 @@ public class Mapping {
     // Convert FieldDTO to FieldEntity
     public FieldEntity toFieldEntity(FieldDTO fieldDTO) {
         return modelMapper.map(fieldDTO, FieldEntity.class);
+    }
+
+ public StaffEntity toStaffEntity(StaffDTO staffDTO) {
+        return modelMapper.map(staffDTO, StaffEntity.class);
     }
 
     public FieldDTO toFieldDTO(FieldEntity field) {

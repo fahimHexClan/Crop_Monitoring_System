@@ -15,7 +15,7 @@ import lk.ijse.Crop_monitoring_system.Repository.FieldRepo;
 import lk.ijse.Crop_monitoring_system.Repository.StaffRepo;
 import lk.ijse.Crop_monitoring_system.Repository.VehicleRepo;
 import lk.ijse.Crop_monitoring_system.Service.StaffService;
-import lk.ijse.Crop_monitoring_system.util.VarList;
+import lk.ijse.Crop_monitoring_system.util.Mapping;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -37,29 +37,51 @@ public class StaffServiceImpl implements StaffService {
     private EquipmentRepo equipmentRepo;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private Mapping modelMapper1;
 
 
-    @Override
-    @Transactional
+
     public void saveStaff(StaffDTO staffDTO) {
-        try {
+        StaffEntity staff = modelMapper1.toStaffEntity(staffDTO);
+
+        // Fetch and set associated fields
+        List<FieldEntity> fields = new ArrayList<>();
+        if (staffDTO.getFields() != null) {
+            for (FieldDTO fieldDto : staffDTO.getFields()) {
+                FieldEntity field = fieldRepo.findById(fieldDto.getFieldId())
+                        .orElseThrow(() -> new DataPersistException("Field not found with ID: " + fieldDto.getFieldId()));
+                fields.add(field);
+            }
+        }
+        staff.setFields(fields);
+
+        // Save staff entity
+        StaffEntity savedStaff = staffRepo.save(staff);
+        if (savedStaff == null) {
+            throw new DataPersistException("Staff not saved");
+        }
+
+
+
+
+
+        /*try {
             // Step 1: Check if a staff member with the same email already exists
             if (staffRepo.findByEmail(staffDTO.getEmail()).isPresent()) {
                 throw new DataPersistException("A staff member with the provided email already exists: " + staffDTO.getEmail());
             }
 
-            // Step 2: Convert StaffDTO to StaffEntity
+            // Step 2: Create a new StaffEntity and set basic information
             StaffEntity staffEntity = modelMapper.map(staffDTO, StaffEntity.class);
 
             // Step 3: Handle Many-to-Many relationship with Fields using IDs
             if (staffDTO.getFields() != null && !staffDTO.getFields().isEmpty()) {
-                List<FieldEntity> fieldEntities = new ArrayList<>();
                 for (FieldDTO fieldDto : staffDTO.getFields()) {
                     FieldEntity fieldEntity = fieldRepo.findById(fieldDto.getFieldId())
                             .orElseThrow(() -> new DataPersistException("Field not found with ID: " + fieldDto.getFieldId()));
-                    fieldEntities.add(fieldEntity);
+                    staffEntity.addField(fieldEntity); // Synchronize both ways
                 }
-                staffEntity.setFields(fieldEntities); // Set field relationships
             }
 
             // Step 4: Handle One-to-Many relationship with Vehicles using IDs (if provided)
@@ -67,8 +89,7 @@ public class StaffServiceImpl implements StaffService {
                 for (VehicleDto vehicleDto : staffDTO.getVehicles()) {
                     VehicleEntity vehicleEntity = vehicleRepo.findById(vehicleDto.getId())
                             .orElseThrow(() -> new DataPersistException("Vehicle not found with ID: " + vehicleDto.getId()));
-                    vehicleEntity.setStaff(staffEntity); // Set staff reference in Vehicle
-                    staffEntity.getVehicles().add(vehicleEntity); // Add vehicle to staff
+                    staffEntity.addVehicle(vehicleEntity); // Synchronize both ways
                 }
             }
 
@@ -77,8 +98,7 @@ public class StaffServiceImpl implements StaffService {
                 for (EquipmentDTO equipmentDto : staffDTO.getEquipmentDTOS()) {
                     EquipmentEntity equipmentEntity = equipmentRepo.findById(equipmentDto.getId())
                             .orElseThrow(() -> new DataPersistException("Equipment not found with ID: " + equipmentDto.getId()));
-                    equipmentEntity.setAssignedStaff(staffEntity); // Set staff reference in Equipment
-                    staffEntity.getEquipments().add(equipmentEntity); // Add equipment to staff
+                    staffEntity.addEquipment(equipmentEntity); // Synchronize both ways
                 }
             }
 
@@ -86,12 +106,12 @@ public class StaffServiceImpl implements StaffService {
             staffRepo.save(staffEntity);
 
         } catch (DataIntegrityViolationException e) {
-            // Handle duplicate email exception
             throw new DataPersistException("A staff member with the provided email already exists: " + staffDTO.getEmail(), e);
         } catch (Exception e) {
             throw new DataPersistException("Error occurred while saving staff: " + e.getMessage(), e);
-        }
+        }*/
     }
+
 
     @Override
     public void updateStaff(Long staffCode, StaffDTO updatedStaffDTO) {
@@ -117,38 +137,33 @@ public class StaffServiceImpl implements StaffService {
             staffEntity.setRole(updatedStaffDTO.getRole());
 
             // Update Many-to-Many relationship with Fields using IDs
+            staffEntity.getFields().clear();
             if (updatedStaffDTO.getFields() != null && !updatedStaffDTO.getFields().isEmpty()) {
-                List<FieldEntity> updatedFieldEntities = new ArrayList<>();
                 for (FieldDTO fieldDto : updatedStaffDTO.getFields()) {
                     FieldEntity fieldEntity = fieldRepo.findById(fieldDto.getFieldId())
                             .orElseThrow(() -> new DataPersistException("Field not found with ID: " + fieldDto.getFieldId()));
-                    updatedFieldEntities.add(fieldEntity);
+                    staffEntity.addField(fieldEntity); // Synchronize both ways
                 }
-                staffEntity.setFields(updatedFieldEntities); // Set updated fields
             }
 
-            // Update One-to-Many relationship with Vehicles using IDs (if provided)
+            // Update One-to-Many relationship with Vehicles using IDs
+            staffEntity.getVehicles().clear();
             if (updatedStaffDTO.getVehicles() != null && !updatedStaffDTO.getVehicles().isEmpty()) {
-                List<VehicleEntity> updatedVehicleEntities = new ArrayList<>();
                 for (VehicleDto vehicleDto : updatedStaffDTO.getVehicles()) {
                     VehicleEntity vehicleEntity = vehicleRepo.findById(vehicleDto.getId())
                             .orElseThrow(() -> new DataPersistException("Vehicle not found with ID: " + vehicleDto.getId()));
-                    updatedVehicleEntities.add(vehicleEntity);
-                    vehicleEntity.setStaff(staffEntity); // Set staff reference in Vehicle
+                    staffEntity.addVehicle(vehicleEntity); // Synchronize both ways
                 }
-                staffEntity.setVehicles(updatedVehicleEntities);
             }
 
-            // Update One-to-Many relationship with Equipments using IDs (if provided)
+            // Update One-to-Many relationship with Equipments using IDs
+            staffEntity.getEquipments().clear();
             if (updatedStaffDTO.getEquipmentDTOS() != null && !updatedStaffDTO.getEquipmentDTOS().isEmpty()) {
-                List<EquipmentEntity> updatedEquipmentEntities = new ArrayList<>();
                 for (EquipmentDTO equipmentDto : updatedStaffDTO.getEquipmentDTOS()) {
                     EquipmentEntity equipmentEntity = equipmentRepo.findById(equipmentDto.getId())
                             .orElseThrow(() -> new DataPersistException("Equipment not found with ID: " + equipmentDto.getId()));
-                    updatedEquipmentEntities.add(equipmentEntity);
-                    equipmentEntity.setAssignedStaff(staffEntity); // Set staff reference in Equipment
+                    staffEntity.addEquipment(equipmentEntity); // Synchronize both ways
                 }
-                staffEntity.setEquipments(updatedEquipmentEntities);
             }
 
             // Save updated Staff entity
@@ -158,4 +173,5 @@ public class StaffServiceImpl implements StaffService {
             throw new DataPersistException("Error occurred while updating staff: " + e.getMessage(), e);
         }
     }
+
 }
