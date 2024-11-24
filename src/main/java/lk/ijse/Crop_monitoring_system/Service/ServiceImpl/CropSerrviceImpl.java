@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -95,5 +96,14 @@ public class CropSerrviceImpl implements CropService {
             // Save updated Field entity
             cropRepo.save(crop);
         }
+    }
+
+    @Override
+    public List<CropDTO> getAllCrop() {
+        List<CropEntity> crops = cropRepo.findAll();
+        if (crops.isEmpty()) {
+            throw new DataPersistException("No fields found");
+        }
+        return mapping.asCropDTOList(crops);
     }
 }
