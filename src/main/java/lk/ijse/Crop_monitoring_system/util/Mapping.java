@@ -1,5 +1,6 @@
 package lk.ijse.Crop_monitoring_system.util;
 
+import jakarta.annotation.PostConstruct;
 import lk.ijse.Crop_monitoring_system.Dto.CropDTO;
 import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
 import lk.ijse.Crop_monitoring_system.Dto.Status.FieldStatus;
@@ -18,7 +19,13 @@ public class Mapping {
     @Autowired
     private ModelMapper modelMapper;
 
-
+    @PostConstruct
+    public void configureMappings() {
+        // Custom configuration for mapping CropEntity to CropDTO
+        modelMapper.typeMap(CropEntity.class, CropDTO.class).addMappings(mapper -> {
+            mapper.map(src -> src.getField().getFieldId(), CropDTO::setFieldId);  // Custom mapping for fieldId
+        });
+    }
     // Convert FieldDTO to FieldEntity
     public FieldEntity toFieldEntity(FieldDTO fieldDTO) {
         return modelMapper.map(fieldDTO, FieldEntity.class);

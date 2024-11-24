@@ -35,8 +35,8 @@ public class CropSerrviceImpl implements CropService {
             CropEntity cropEntity = mapping.toCropEntity(cropDto);
 
             // If there's a field associated, set it
-            if (cropDto.getField() != null) {
-                FieldEntity fieldEntity = fieldRepo.findById(cropDto.getField()).orElseThrow(() -> new DataPersistException("Field not found with ID: " + cropDto.getField()));
+            if (cropDto.getFieldId() != null) {
+                FieldEntity fieldEntity = fieldRepo.findById(cropDto.getFieldId()).orElseThrow(() -> new DataPersistException("Field not found with ID: " + cropDto.getFieldId()));
                 cropEntity.setField(fieldEntity);
             }
 
@@ -67,11 +67,8 @@ public class CropSerrviceImpl implements CropService {
             CropEntity selectedCrop = cropRepo.getReferenceById(cropCode);
             return mapping.toCropDTO(selectedCrop);
         } else {
-            /* return new SelectedErrorStatus(2, "Selected Field not found");*/
             throw new DataPersistException("Field not found");
-
         }
+
     }
-
-
 }

@@ -2,7 +2,6 @@ package lk.ijse.Crop_monitoring_system.Controller;
 
 import lk.ijse.Crop_monitoring_system.Dto.CropDTO;
 import lk.ijse.Crop_monitoring_system.Dto.Status.CropStatus;
-import lk.ijse.Crop_monitoring_system.Dto.Status.FieldStatus;
 import lk.ijse.Crop_monitoring_system.Exception.DataPersistException;
 import lk.ijse.Crop_monitoring_system.Service.CropService;
 import lk.ijse.Crop_monitoring_system.util.AppUtill;
@@ -34,7 +33,7 @@ public class CropController {
             cropDto.setCropImage(base64Image);
             cropDto.setCategory(category);
             cropDto.setSeason(season);
-            cropDto.setField(fieldId);  // Set the field ID
+            cropDto.setFieldId(fieldId);  // Set the field ID
 
             // Save the crop
             cropService.saveCrop(cropDto);
