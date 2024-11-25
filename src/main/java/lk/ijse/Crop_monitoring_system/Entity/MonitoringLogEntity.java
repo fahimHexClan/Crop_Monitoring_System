@@ -32,28 +32,11 @@ public class MonitoringLogEntity implements SuperEntity {
     @Column(name = "Moniter_LogImage",columnDefinition = "LONGTEXT")
     private String observedImage;
     //byte=Used to store  image ,pdf,word documents,audio ,video in databse
+    @OneToMany(mappedBy = "log")
+    private List<CropEntity> crops;
+    @OneToMany(mappedBy = "log")
+    private List<StaffEntity> staff;
+    @OneToMany(mappedBy = "log")
+    private List<FieldEntity> fields;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinTable(
-            name = "log_field_mapping",
-            joinColumns = @JoinColumn(name = "log_id"),
-            inverseJoinColumns = @JoinColumn(name = "field_id")
-    )
-    private List<FieldEntity> fields; // Fields associated with the log
-
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinTable(
-            name = "log_crop_mapping",
-            joinColumns = @JoinColumn(name = "log_id"),
-            inverseJoinColumns = @JoinColumn(name = "crop_id")
-    )
-    private List<CropEntity> crops; // Crops associated with the log
-
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinTable(
-            name = "log_staff_mapping",
-            joinColumns = @JoinColumn(name = "log_id"),
-            inverseJoinColumns = @JoinColumn(name = "staff_id")
-    )
-    private List<StaffEntity> staff; // Staff members associated with the log
 }

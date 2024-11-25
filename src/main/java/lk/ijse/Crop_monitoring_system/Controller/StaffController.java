@@ -24,6 +24,7 @@ public class StaffController {
 
     public ResponseEntity<Void> saveStaff(@RequestBody StaffDTO staffDto) {
         try {
+            //System.out.println(staffDto);
             staffService.saveStaff(staffDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){

@@ -34,7 +34,9 @@ public class FieldController {
             @RequestParam("extent_size") Double extentSize,
             @RequestParam("fieldImageOne") MultipartFile fieldImageOne,
             @RequestParam("fieldImageTwo") MultipartFile fieldImageTwo,
-            @RequestParam(value = "Field_Staff", required = false) List<Long> fieldStaffIds)
+            @RequestParam(value = "Field_Staff", required = false) List<Long> fieldStaffIds,
+            @RequestParam(value = "logId", required = false) Long logId
+            )
             {
         try {
             Point location = new Point(x, y);
@@ -62,6 +64,7 @@ public class FieldController {
             fieldDto.setFieldImage1(base64ImageOne);
             fieldDto.setFieldImage2(base64ImageTwo);
             fieldDto.setStaff(staffDtos);
+            fieldDto.setLogId(logId);
 
             // Save the field
 

@@ -35,6 +35,9 @@ public class CropEntity implements SuperEntity{
     @ManyToOne
     @JoinColumn(name = "field_id", nullable = false)
     private FieldEntity field;
+    @ManyToOne
+    @JoinColumn(name = "logId",nullable = false)
+    private MonitoringLogEntity log;
 }
 
 

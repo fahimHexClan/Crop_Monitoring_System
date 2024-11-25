@@ -3,10 +3,13 @@ package lk.ijse.Crop_monitoring_system.util;
 import jakarta.annotation.PostConstruct;
 import lk.ijse.Crop_monitoring_system.Dto.CropDTO;
 import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
+import lk.ijse.Crop_monitoring_system.Dto.MonitoringLogDTO;
 import lk.ijse.Crop_monitoring_system.Dto.StaffDTO;
+import lk.ijse.Crop_monitoring_system.Dto.Status.MonitoringLogStatus;
 import lk.ijse.Crop_monitoring_system.Dto.Status.StaffStatus;
 import lk.ijse.Crop_monitoring_system.Entity.CropEntity;
 import lk.ijse.Crop_monitoring_system.Entity.FieldEntity;
+import lk.ijse.Crop_monitoring_system.Entity.MonitoringLogEntity;
 import lk.ijse.Crop_monitoring_system.Entity.StaffEntity;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -68,6 +71,20 @@ public class Mapping {
 
     public List<StaffDTO> asStaffDTOList(List<StaffEntity> all) {
         return modelMapper.map(all, new TypeToken<List<StaffDTO>>() {}.getType());
+
+    }
+
+    public MonitoringLogEntity toMoniteringLogEntity(MonitoringLogDTO moniteringLogDto) {
+        return modelMapper.map(moniteringLogDto, MonitoringLogEntity.class);
+    }
+
+    public List<MonitoringLogDTO> asLogsDTOList(List<MonitoringLogEntity> all) {
+        return modelMapper.map(all, new TypeToken<List<MonitoringLogDTO>>() {}.getType());
+
+    }
+
+    public MonitoringLogDTO toMoniteringLogDto(MonitoringLogEntity selectedlog) {
+        return modelMapper.map(selectedlog, MonitoringLogDTO.class);
 
     }
 }

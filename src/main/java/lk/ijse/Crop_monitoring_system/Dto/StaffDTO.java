@@ -33,4 +33,5 @@ public class StaffDTO implements StaffStatus {
     private List<FieldDTO> fields;
     private List<VehicleDto> vehicles;
     private List<EquipmentDTO> equipmentDTOS;
+    private Long logId;
 }

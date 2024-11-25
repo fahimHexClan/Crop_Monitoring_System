@@ -81,6 +81,8 @@ public class StaffEntity implements SuperEntity{
 
     @OneToMany(mappedBy = "assignedStaff",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EquipmentEntity> equipments;
-
+    @ManyToOne
+    @JoinColumn(name = "logId")
+    private MonitoringLogEntity log;
    }
 

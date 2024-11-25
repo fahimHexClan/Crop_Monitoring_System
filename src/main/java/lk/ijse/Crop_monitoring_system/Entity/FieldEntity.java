@@ -52,7 +52,9 @@ public class FieldEntity implements SuperEntity{
     )
     @JsonManagedReference
     private List<StaffEntity> staff= new ArrayList<>(); // Staff assigned to this field
-
+    @ManyToOne
+    @JoinColumn(name = "logId",nullable = false)
+    private MonitoringLogEntity log;
 
 }
 

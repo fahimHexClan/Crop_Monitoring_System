@@ -16,4 +16,5 @@ public class CropDTO implements CropStatus {
     private String category;
     private String season;
     private Long fieldId;
+    private Long logId;
 }

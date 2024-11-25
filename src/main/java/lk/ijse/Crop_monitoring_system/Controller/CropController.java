@@ -23,7 +23,14 @@ public class CropController {
     private CropService cropService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> saveCrop(@RequestParam("cropCode") Long cropCode, @RequestParam("commonName") String commonName, @RequestParam("scientificName") String scientificName, @RequestParam("cropImage") MultipartFile cropImage, @RequestParam("category") String category, @RequestParam("season") String season, @RequestParam(value = "Crop_Field", required = false) Long fieldId) {
+    public ResponseEntity<Void> saveCrop(@RequestParam("cropCode") Long cropCode,
+                                         @RequestParam("commonName") String commonName,
+                                         @RequestParam("scientificName") String scientificName,
+                                         @RequestParam("cropImage") MultipartFile cropImage,
+                                         @RequestParam("category") String category,
+                                         @RequestParam("season") String season,
+                                         @RequestParam(value = "Crop_Field") Long fieldId,
+                                         @RequestParam(value = "logId") Long logId) {
         try {
             // Convert image file to Base64 string
             String base64Image = AppUtill.ImageToBase64(cropImage.getBytes());
@@ -36,7 +43,8 @@ public class CropController {
             cropDto.setCropImage(base64Image);
             cropDto.setCategory(category);
             cropDto.setSeason(season);
-            cropDto.setFieldId(fieldId);  // Set the field ID
+            cropDto.setFieldId(fieldId);
+            cropDto.setLogId(logId);
 
             // Save the crop
             cropService.saveCrop(cropDto);
