@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lk.ijse.Crop_monitoring_system.Dto.EquipmentDTO;
 import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
 import lk.ijse.Crop_monitoring_system.Dto.StaffDTO;
+import lk.ijse.Crop_monitoring_system.Dto.Status.StaffStatus;
 import lk.ijse.Crop_monitoring_system.Dto.VehicleDto;
 import lk.ijse.Crop_monitoring_system.Entity.EquipmentEntity;
 import lk.ijse.Crop_monitoring_system.Entity.FieldEntity;
@@ -16,6 +17,7 @@ import lk.ijse.Crop_monitoring_system.Repository.StaffRepo;
 import lk.ijse.Crop_monitoring_system.Repository.VehicleRepo;
 import lk.ijse.Crop_monitoring_system.Service.StaffService;
 import lk.ijse.Crop_monitoring_system.util.Mapping;
+import lk.ijse.Crop_monitoring_system.util.SelectedErrorStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,7 +81,35 @@ public class StaffServiceImpl implements StaffService {
             staffRepo.save(staff);
         }
 
-        @Override
+    @Override
+    public void deleteStaff(Long staffId) {
+        Optional<StaffEntity> foundStaff = staffRepo.findById(staffId);
+        if (!foundStaff.isPresent()) {
+            throw new DataPersistException("Staff not found");
+        } else {
+            staffRepo.deleteById(staffId);
+        }
+
+    }
+
+    @Override
+    public StaffStatus getStaff(Long staffId) {
+        if (staffRepo.existsById(staffId)) {
+            StaffEntity selectedStaff = staffRepo.getReferenceById(staffId);
+            return modelMapper1.toStaffDTO(selectedStaff);
+        } else {
+            return new SelectedErrorStatus(2, "Selected Staff not found");
+        }
+
+    }
+
+    @Override
+    public List<StaffDTO> getAllStaff() {
+        return modelMapper1.asStaffDTOList(staffRepo.findAll());
+
+    }
+
+    @Override
     public void updateStaff(Long staffCode, StaffDTO updatedStaffDTO) {
                 Optional<StaffEntity> findStaff = staffRepo.findById(staffCode);
                 if (!findStaff.isPresent()) {

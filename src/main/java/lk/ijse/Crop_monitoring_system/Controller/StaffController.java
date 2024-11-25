@@ -1,6 +1,7 @@
 package lk.ijse.Crop_monitoring_system.Controller;
 
 import lk.ijse.Crop_monitoring_system.Dto.StaffDTO;
+import lk.ijse.Crop_monitoring_system.Dto.Status.StaffStatus;
 import lk.ijse.Crop_monitoring_system.Exception.DataPersistException;
 import lk.ijse.Crop_monitoring_system.Service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -49,4 +52,28 @@ public class StaffController {
             return new ResponseEntity<>("Internal server error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @DeleteMapping(value = "/{staffId}")
+    public ResponseEntity<Void> deleteStaff(@PathVariable ("staffId") Long staffId){
+        try {
+            staffService.deleteStaff(staffId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (DataPersistException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping(value = "/{staffId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public StaffStatus getSelectedStaff(@PathVariable ("staffId") Long staffId){
+        return staffService.getStaff(staffId);
+    }
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<StaffDTO> getALlStaff(){
+        return staffService.getAllStaff();
+    }
+
+
+
 }

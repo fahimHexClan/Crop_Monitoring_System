@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import lk.ijse.Crop_monitoring_system.Dto.CropDTO;
 import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
 import lk.ijse.Crop_monitoring_system.Dto.StaffDTO;
+import lk.ijse.Crop_monitoring_system.Dto.Status.StaffStatus;
 import lk.ijse.Crop_monitoring_system.Entity.CropEntity;
 import lk.ijse.Crop_monitoring_system.Entity.FieldEntity;
 import lk.ijse.Crop_monitoring_system.Entity.StaffEntity;
@@ -57,6 +58,16 @@ public class Mapping {
 
     public List<CropDTO> asCropDTOList(List<CropEntity> crops) {
         return modelMapper.map(crops, new TypeToken<List<CropDTO>>() {}.getType());
+
+    }
+
+    public StaffDTO toStaffDTO(StaffEntity selectedStaff) {
+        return modelMapper.map(selectedStaff, StaffDTO.class);
+
+    }
+
+    public List<StaffDTO> asStaffDTOList(List<StaffEntity> all) {
+        return modelMapper.map(all, new TypeToken<List<StaffDTO>>() {}.getType());
 
     }
 }
