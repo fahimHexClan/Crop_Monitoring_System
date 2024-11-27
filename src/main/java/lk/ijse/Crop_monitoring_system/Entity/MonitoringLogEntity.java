@@ -39,4 +39,5 @@ public class MonitoringLogEntity implements SuperEntity {
     @OneToMany(mappedBy = "log")
     private List<FieldEntity> fields;
 
+
 }
