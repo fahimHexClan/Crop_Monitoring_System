@@ -1,16 +1,10 @@
 package lk.ijse.Crop_monitoring_system.util;
 
 import jakarta.annotation.PostConstruct;
-import lk.ijse.Crop_monitoring_system.Dto.CropDTO;
-import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
-import lk.ijse.Crop_monitoring_system.Dto.MonitoringLogDTO;
-import lk.ijse.Crop_monitoring_system.Dto.StaffDTO;
+import lk.ijse.Crop_monitoring_system.Dto.*;
 import lk.ijse.Crop_monitoring_system.Dto.Status.MonitoringLogStatus;
 import lk.ijse.Crop_monitoring_system.Dto.Status.StaffStatus;
-import lk.ijse.Crop_monitoring_system.Entity.CropEntity;
-import lk.ijse.Crop_monitoring_system.Entity.FieldEntity;
-import lk.ijse.Crop_monitoring_system.Entity.MonitoringLogEntity;
-import lk.ijse.Crop_monitoring_system.Entity.StaffEntity;
+import lk.ijse.Crop_monitoring_system.Entity.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.modelmapper.TypeToken;
@@ -40,6 +34,9 @@ public class Mapping {
     public FieldEntity toFieldEntity(FieldDTO fieldDTO) {
         return modelMapper.map(fieldDTO, FieldEntity.class);
     }
+    public UserEntity toUserEntity(UserDTO userDTO) {
+        return modelMapper.map(userDTO, UserEntity.class);
+    }
 
  public StaffEntity toStaffEntity(StaffDTO staffDTO) {
         return modelMapper.map(staffDTO, StaffEntity.class);
@@ -48,9 +45,16 @@ public class Mapping {
     public FieldDTO toFieldDTO(FieldEntity field) {
         return modelMapper.map(field, FieldDTO.class);
     }
+   public UserDTO toUserDTO(UserEntity userEntity) {
+        return modelMapper.map(userEntity, UserDTO.class);
+    }
 
     public List<FieldDTO> asFieldDTOList(List<FieldEntity> fieldList) {
         return modelMapper.map(fieldList, new TypeToken<List<FieldDTO>>() {}.getType());
+    }
+
+    public List<UserDTO> asUserDTOList(List<UserEntity> userEntities) {
+        return modelMapper.map(userEntities, new TypeToken<List<UserDTO>>() {}.getType());
     }
 
 

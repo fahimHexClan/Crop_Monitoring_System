@@ -86,13 +86,28 @@ public class MonitorLogController {
     }
     @PutMapping(value = "/{logID}")
     public ResponseEntity<Void> updatedLogs(@PathVariable ("logID") Long logID,
-                                            @RequestBody MonitoringLogDTO updatedLogsDTO){
+
+                                            @RequestParam("logDate") String logDate,
+                                            @RequestParam("logDetails") String logDetails,
+                                            @RequestParam("observedImage") MultipartFile observedImage){
         //validations
         try {
-            if (updatedLogsDTO == null) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-            moniteringLogService.updatedLogs(logID,updatedLogsDTO);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date logDate1 = dateFormat.parse(logDate); // Converts to Date
+            String base64ProPic = "";
+
+            byte [] bytesProPic = observedImage.getBytes();
+            base64ProPic = AppUtill.ImageToBase64(bytesProPic);
+
+
+
+            MonitoringLogDTO logDto = new MonitoringLogDTO();
+
+            logDto.setLogDate(logDate1);
+            logDto.setLogDetails(logDetails);
+            logDto.setObservedImage(base64ProPic);
+
+            moniteringLogService.updatedLogs(logID,logDto);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (DataPersistException e){
             e.printStackTrace();
