@@ -79,16 +79,52 @@ public class FieldController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
     @PutMapping(value = "/{FieldCode}")
     public ResponseEntity<Void> updateField(@PathVariable("FieldCode") Long fieldCode,
-                                            @RequestBody FieldDTO updatedFieldDTO) {
+
+                                            @RequestParam("fieldName") String fieldName,
+                                            @RequestParam("fieldLocation[x]") int x,
+                                            @RequestParam("fieldLocation[y]") int y,
+                                            @RequestParam("extent_size") Double extentSize,
+                                            @RequestParam("fieldImageOne") MultipartFile fieldImageOne,
+                                            @RequestParam("fieldImageTwo") MultipartFile fieldImageTwo,
+                                            @RequestParam(value = "Field_Staff", required = false) List<Long> fieldStaffIds,
+                                            @RequestParam(value = "logId", required = false) Long logId) {
         try {
-            if (fieldCode == null || updatedFieldDTO == null) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            // Step 1: Convert location to Point
+            Point location = new Point(x, y);
+
+            // Step 2: Convert images to Base64
+            String base64ImageOne = AppUtill.ImageToBase64(fieldImageOne.getBytes());
+            String base64ImageTwo = AppUtill.ImageToBase64(fieldImageTwo.getBytes());
+
+            // Step 3: Prepare StaffDTO list
+            List<StaffDTO> staffDtos = new ArrayList<>();
+            if (fieldStaffIds != null && !fieldStaffIds.isEmpty()) {
+                for (Long staffId : fieldStaffIds) {
+                    StaffDTO staffDto = new StaffDTO();
+                    staffDto.setStaffCode(staffId);
+                    staffDtos.add(staffDto);
+                }
             }
-            fieldServise.updateField(fieldCode, updatedFieldDTO);
+
+            // Step 4: Create and set updated FieldDTO
+            FieldDTO fieldDto = new FieldDTO();
+            fieldDto.setFieldId(fieldCode);
+            fieldDto.setFieldName(fieldName);
+            fieldDto.setFieldLocation(location);
+            fieldDto.setExtentSize(extentSize);
+            fieldDto.setFieldImage1(base64ImageOne);
+            fieldDto.setFieldImage2(base64ImageTwo);
+            fieldDto.setStaff(staffDtos);
+            fieldDto.setLogId(logId);
+
+            // Step 5: Update the field using the service
+            fieldServise.updateField(fieldCode, fieldDto);
+
+            // Return response indicating update success
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
         } catch (DataPersistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -97,6 +133,7 @@ public class FieldController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @DeleteMapping(value = "/{FieldCode}")
     public ResponseEntity<Void> deleteField(@PathVariable("FieldCode") Long fieldCode) {
         try {
