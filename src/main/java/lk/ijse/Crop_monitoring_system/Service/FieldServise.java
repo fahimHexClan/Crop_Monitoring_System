@@ -17,4 +17,6 @@ public interface FieldServise {
     FieldStatus getField(Long fieldCode);
 
     List<FieldDTO> getAllField();
+
+    List<Long> getAllFieldIds();
 }

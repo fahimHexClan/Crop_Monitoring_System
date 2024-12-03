@@ -160,6 +160,16 @@ public class FieldController {
         return fieldServise.getAllField();
     }
 
+    @GetMapping("/ids")
+    public ResponseEntity<List<Long>> getAllFieldIds() {
+        try {
+            List<Long> fieldIds = fieldServise.getAllFieldIds();
+            return new ResponseEntity<>(fieldIds, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }
 

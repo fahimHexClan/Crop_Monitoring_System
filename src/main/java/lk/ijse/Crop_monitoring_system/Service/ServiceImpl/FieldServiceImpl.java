@@ -113,5 +113,15 @@ public class FieldServiceImpl implements FieldServise {
     public List<FieldDTO> getAllField() {
         return mapping.asFieldDTOList(fieldRepo.findAll());
     }
+
+    @Override
+    public List<Long> getAllFieldIds() {
+        List<FieldEntity> fieldEntities = fieldRepo.findAll();
+        List<Long> fieldIds = new ArrayList<>();
+        for (FieldEntity fieldEntity : fieldEntities) {
+            fieldIds.add(fieldEntity.getFieldId()); // Assuming FieldEntity has a getFieldId method
+        }
+        return fieldIds;
+    }
 }
 
