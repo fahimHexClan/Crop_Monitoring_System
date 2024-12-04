@@ -3,6 +3,7 @@ package lk.ijse.Crop_monitoring_system.Service.ServiceImpl;
 import jakarta.transaction.Transactional;
 import lk.ijse.Crop_monitoring_system.Dto.MonitoringLogDTO;
 import lk.ijse.Crop_monitoring_system.Dto.Status.MonitoringLogStatus;
+import lk.ijse.Crop_monitoring_system.Entity.FieldEntity;
 import lk.ijse.Crop_monitoring_system.Entity.MonitoringLogEntity;
 import lk.ijse.Crop_monitoring_system.Exception.DataPersistException;
 import lk.ijse.Crop_monitoring_system.Repository.MonitorRepo;
@@ -12,6 +13,7 @@ import lk.ijse.Crop_monitoring_system.util.SelectedErrorStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,6 +70,17 @@ public class MonitorServiceImpl implements MonitorService {
 
     }
     }
+
+    @Override
+    public List<Long> getAllLogIds() {
+        List<MonitoringLogEntity> monitoringLogEntities = moniteringLogDao.findAll();
+        List<Long> logIds = new ArrayList<>();
+        for (MonitoringLogEntity monitoringLogEntity : monitoringLogEntities) {
+            logIds.add(monitoringLogEntity.getId()); // Assuming FieldEntity has a getFieldId method
+        }
+        return logIds;
+    }
+
 
     @Override
     public List<MonitoringLogDTO> getAllLogs() {

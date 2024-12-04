@@ -19,15 +19,6 @@ public class Mapping {
     @Autowired
     private ModelMapper modelMapper;
 
-    @PostConstruct
-    public void init() {
-        modelMapper.addMappings(new PropertyMap<CropDTO, CropEntity>() {
-            @Override
-            protected void configure() {
-                map().setId(null); // Explicitly set id to null to avoid conflict
-            }
-        });
-    }
 
 
     // Convert FieldDTO to FieldEntity
@@ -38,8 +29,7 @@ public class Mapping {
         return modelMapper.map(userDTO, UserEntity.class);
     }
 
- public StaffEntity toStaffEntity(StaffDTO staffDTO) {
-        return modelMapper.map(staffDTO, StaffEntity.class);
+    public StaffEntity toStaffEntity(StaffDTO staffDto) {return modelMapper.map(staffDto, StaffEntity.class);
     }
 
     public FieldDTO toFieldDTO(FieldEntity field) {
@@ -84,14 +74,12 @@ public class Mapping {
 
 
 
-    public StaffDTO toStaffDTO(StaffEntity selectedStaff) {
-        return modelMapper.map(selectedStaff, StaffDTO.class);
-
+    public StaffDTO toStaffDTO(StaffEntity staff) {
+        return modelMapper.map(staff, StaffDTO.class);
     }
 
-    public List<StaffDTO> asStaffDTOList(List<StaffEntity> all) {
-        return modelMapper.map(all, new TypeToken<List<StaffDTO>>() {}.getType());
-
+    public List<StaffDTO> asStaffDTOList(List<StaffEntity> staffList) {
+        return modelMapper.map(staffList, new TypeToken<List<StaffDTO>>() {}.getType());
     }
 
     public MonitoringLogEntity toMoniteringLogEntity(MonitoringLogDTO moniteringLogDto) {
@@ -108,3 +96,11 @@ public class Mapping {
 
     }
 }
+/*public Staff toStaffEntity(StaffDto staffDto) {return modelMapper.map(staffDto, Staff.class);
+    }
+    public StaffDto toStaffDTO(Staff staff) {
+        return modelMapper.map(staff, StaffDto.class);
+    }
+    public List<StaffDto> asStaffDTOList(List<Staff> staffList) {
+        return modelMapper.map(staffList, new TypeToken<List<StaffDto>>() {}.getType());
+    }*/

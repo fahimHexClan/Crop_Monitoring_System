@@ -117,5 +117,15 @@ public class MonitorLogController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/ids")
+    public ResponseEntity<List<Long>> getAllMonitorIdsIds() {
+        try {
+            List<Long> logId = moniteringLogService.getAllLogIds();
+            return new ResponseEntity<>(logId, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

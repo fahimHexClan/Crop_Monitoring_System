@@ -76,6 +76,10 @@ public class StaffController {
         return staffService.getAllStaff();
     }
 
-
+  /*  @GetMapping(value = "/ids", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Long>> getAllStaffIds() {
+        List<Long> staffIds = staffService.getAllStaffIds();
+        return new ResponseEntity<>(staffIds, HttpStatus.OK);
+    }*/
 
 }

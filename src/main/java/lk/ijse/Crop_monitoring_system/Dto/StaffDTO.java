@@ -1,5 +1,6 @@
 package lk.ijse.Crop_monitoring_system.Dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lk.ijse.Crop_monitoring_system.Dto.Status.StaffStatus;
 import lk.ijse.Crop_monitoring_system.Entity.Enums.Designation;
 import lk.ijse.Crop_monitoring_system.Entity.Enums.Gender;
@@ -15,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class StaffDTO implements StaffStatus {
-    private Long staffCode;
+    private Long id;
     private String firstName;
     private String lastName;
     private Designation designation;
@@ -30,6 +31,7 @@ public class StaffDTO implements StaffStatus {
     private String contactNo;
     private String email;
     private Role role;
+    @JsonIgnore
     private List<FieldDTO> fields;
     private List<VehicleDto> vehicles;
     private List<EquipmentDTO> equipmentDTOS;

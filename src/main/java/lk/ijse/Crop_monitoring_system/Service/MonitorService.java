@@ -15,4 +15,6 @@ public interface MonitorService {
     void deleteLogs(Long logID);
 
     void updatedLogs(Long logID, MonitoringLogDTO updatedLogsDTO);
+
+    List<Long> getAllLogIds();
 }

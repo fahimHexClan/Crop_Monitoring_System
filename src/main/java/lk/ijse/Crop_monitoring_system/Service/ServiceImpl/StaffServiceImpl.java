@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -26,30 +27,31 @@ public class StaffServiceImpl implements StaffService {
     private StaffRepo staffRepo;
     @Autowired
     private FieldRepo fieldRepo;
-    @Autowired
-    private VehicleRepo vehicleRepo;
-    @Autowired
-    private EquipmentRepo equipmentRepo;
-    @Autowired
-    private MonitorRepo monitoringLogRepo;
+
 
     @Autowired
     private Mapping modelMapper1;
 
-
+    @Override
     public void saveStaff(StaffDTO staffDTO) {
 
         StaffEntity staff = modelMapper1.toStaffEntity(staffDTO);
 
-        // Fetch and set associated fields
+
         List<FieldEntity> fields = new ArrayList<>();
         if (staffDTO.getFields() != null) {
             for (FieldDTO fieldDto : staffDTO.getFields()) {
                 FieldEntity field = fieldRepo.findById(fieldDto.getFieldId())
                         .orElseThrow(() -> new DataPersistException("Field not found with ID: " + fieldDto.getFieldId()));
                 fields.add(field);
+
+                // Add staff to the field's staff list to maintain bidirectional relationship
+                if (!field.getStaff().contains(staff)) {
+                    field.getStaff().add(staff);
+                }
             }
         }
+
         staff.setFields(fields);
 
 
@@ -61,17 +63,6 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public void deleteStaff(Long staffId) {
-        Optional<StaffEntity> foundStaff = staffRepo.findById(staffId);
-        if (!foundStaff.isPresent()) {
-            throw new DataPersistException("Staff not found");
-        } else {
-            staffRepo.deleteById(staffId);
-        }
-
-    }
-
-    @Override
     public StaffStatus getStaff(Long staffId) {
         if (staffRepo.existsById(staffId)) {
             StaffEntity selectedStaff = staffRepo.getReferenceById(staffId);
@@ -79,15 +70,22 @@ public class StaffServiceImpl implements StaffService {
         } else {
             return new SelectedErrorStatus(2, "Selected Staff not found");
         }
-
     }
 
     @Override
     public List<StaffDTO> getAllStaff() {
         return modelMapper1.asStaffDTOList(staffRepo.findAll());
-
     }
 
+    @Override
+    public void deleteStaff(Long staffId) {
+        Optional<StaffEntity> foundStaff = staffRepo.findById(staffId);
+        if (!foundStaff.isPresent()) {
+            throw new DataPersistException("Staff not found");
+        } else {
+            staffRepo.deleteById(staffId);
+        }
+    }
     @Override
     public void updateStaff(Long staffCode, StaffDTO updatedStaffDTO) {
                 Optional<StaffEntity> findStaff = staffRepo.findById(staffCode);
@@ -124,3 +122,5 @@ public class StaffServiceImpl implements StaffService {
 
 
         }}}
+
+

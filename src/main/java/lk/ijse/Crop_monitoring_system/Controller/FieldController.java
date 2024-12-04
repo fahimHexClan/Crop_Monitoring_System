@@ -49,7 +49,7 @@ public class FieldController {
             if (fieldStaffIds != null && !fieldStaffIds.isEmpty()) {
                 for (Long staffId : fieldStaffIds) {
                     StaffDTO staffDto = new StaffDTO();
-                    staffDto.setStaffCode(staffId);
+                    staffDto.setId(staffId);
                     staffDtos.add(staffDto);
                 }
             }
@@ -103,7 +103,7 @@ public class FieldController {
             if (fieldStaffIds != null && !fieldStaffIds.isEmpty()) {
                 for (Long staffId : fieldStaffIds) {
                     StaffDTO staffDto = new StaffDTO();
-                    staffDto.setStaffCode(staffId);
+                    staffDto.setId(staffId);
                     staffDtos.add(staffDto);
                 }
             }

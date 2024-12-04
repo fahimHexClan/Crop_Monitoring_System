@@ -39,8 +39,8 @@ public class FieldServiceImpl implements FieldServise {
         List<StaffEntity> staffs = new ArrayList<>();
         if (fieldDto.getStaff() != null) {
             for (StaffDTO staffDto : fieldDto.getStaff()) {
-                StaffEntity staff = staffRepo.findById(staffDto.getStaffCode())
-                        .orElseThrow(() -> new DataPersistException("Staff not found with ID: " + staffDto.getStaffCode()));
+                StaffEntity staff = staffRepo.findById(staffDto.getId())
+                        .orElseThrow(() -> new DataPersistException("Staff not found with ID: " + staffDto.getId()));
                 staffs.add(staff);
             }
         }
@@ -72,8 +72,8 @@ public class FieldServiceImpl implements FieldServise {
             List<StaffEntity> staffs = new ArrayList<>();
             if (updatedFieldDTO.getStaff() != null) {
                 for (StaffDTO staffDto : updatedFieldDTO.getStaff()) {
-                    StaffEntity staff = staffRepo.findById(staffDto.getStaffCode())
-                            .orElseThrow(() -> new DataPersistException("Staff not found with ID: " + staffDto.getStaffCode()));
+                    StaffEntity staff = staffRepo.findById(staffDto.getId())
+                            .orElseThrow(() -> new DataPersistException("Staff not found with ID: " + staffDto.getId()));
                     staffs.add(staff);
                 }
             }
