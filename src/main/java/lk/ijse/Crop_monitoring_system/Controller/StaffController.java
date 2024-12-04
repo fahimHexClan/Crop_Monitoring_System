@@ -76,10 +76,14 @@ public class StaffController {
         return staffService.getAllStaff();
     }
 
-  /*  @GetMapping(value = "/ids", produces = MediaType.APPLICATION_JSON_VALUE)
+   @GetMapping(value = "/ids")
     public ResponseEntity<List<Long>> getAllStaffIds() {
-        List<Long> staffIds = staffService.getAllStaffIds();
-        return new ResponseEntity<>(staffIds, HttpStatus.OK);
-    }*/
-
+       try {
+           List<Long> staffIds = staffService.getAllStaffIds();
+           return new ResponseEntity<>(staffIds, HttpStatus.OK);
+       } catch (Exception e) {
+           e.printStackTrace();
+           return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+       }
+   }
 }

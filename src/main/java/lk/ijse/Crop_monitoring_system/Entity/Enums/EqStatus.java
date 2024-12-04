@@ -1,6 +1,8 @@
 package lk.ijse.Crop_monitoring_system.Entity.Enums;
 
-public enum VehicleStatus {
+public enum EqStatus {
     AVAILABLE,
+    IN_USE,
     UNDER_MAINTENANCE,
+    DECOMMISSIONED
 }

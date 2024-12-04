@@ -87,7 +87,7 @@ public class CropController {
 
     @PutMapping(value = "/{cropId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> updateCrop(
-                                           @PathVariable("cropCode") Long cropCode,
+                                           @PathVariable("cropId") Long cropCode,
                                            @RequestParam("commonName") String commonName,
                                            @RequestParam("scientificName") String scientificName,
                                            @RequestParam("cropImage") MultipartFile cropImage,
@@ -111,7 +111,7 @@ public class CropController {
             cropDto.setFieldId(fieldId);
             cropDto.setLogId(logId);
 
-            cropService.updateCrop(cropCode, cropDto);
+           cropService.updateCrop(cropCode, cropDto);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (DataPersistException e) {
             e.printStackTrace();

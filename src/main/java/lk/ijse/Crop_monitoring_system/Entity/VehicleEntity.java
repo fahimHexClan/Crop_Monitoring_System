@@ -3,7 +3,7 @@ package lk.ijse.Crop_monitoring_system.Entity;
 import jakarta.persistence.*;
 import lk.ijse.Crop_monitoring_system.Entity.Enums.FuelType;
 import lk.ijse.Crop_monitoring_system.Entity.Enums.VehicleCategory;
-import lk.ijse.Crop_monitoring_system.Entity.Enums.VehicleStatus;
+import lk.ijse.Crop_monitoring_system.Entity.Enums.VehStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,7 +34,7 @@ public class VehicleEntity implements SuperEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "vehicle_status", nullable = false)
-    private VehicleStatus status;
+    private VehStatus status;
 
     @ManyToOne
     @JoinColumn(name = "staff_id")

@@ -23,7 +23,6 @@ public class FieldDTO implements FieldStatus {
     private String fieldImage1;
     private String fieldImage2;
     private List<CropDTO> crops;// Crops associated with this field
-    @JsonIgnore
     private List<StaffDTO> staff; // Staff assigned to t
     private Long logId;
 }

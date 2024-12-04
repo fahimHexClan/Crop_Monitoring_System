@@ -1,7 +1,7 @@
 package lk.ijse.Crop_monitoring_system.Entity;
 
 import jakarta.persistence.*;
-import lk.ijse.Crop_monitoring_system.Entity.Enums.EquipmentStatus;
+import lk.ijse.Crop_monitoring_system.Entity.Enums.EqStatus;
 import lk.ijse.Crop_monitoring_system.Entity.Enums.EquipmentType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,7 +28,7 @@ public class EquipmentEntity implements SuperEntity{
 
     @Enumerated(EnumType.STRING)//When persisting these enum values into a database, JPA needs to know how to store and retrieve them
     @Column(name = "Equipment_Status", nullable = false)
-    private EquipmentStatus status;
+    private EqStatus status;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "staff_id",nullable = false)

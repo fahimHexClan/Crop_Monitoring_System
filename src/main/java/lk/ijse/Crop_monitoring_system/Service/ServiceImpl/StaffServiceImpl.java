@@ -78,6 +78,17 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
+    public List<Long> getAllStaffIds() {
+        List<StaffEntity> staffEntities = staffRepo.findAll();
+        List<Long> staffIds = new ArrayList<>();
+        for (StaffEntity staffEntity : staffEntities) {
+            staffIds.add(staffEntity.getId()); // Assuming FieldEntity has a getFieldId method
+        }
+        return staffIds;
+    }
+
+
+    @Override
     public void deleteStaff(Long staffId) {
         Optional<StaffEntity> foundStaff = staffRepo.findById(staffId);
         if (!foundStaff.isPresent()) {
