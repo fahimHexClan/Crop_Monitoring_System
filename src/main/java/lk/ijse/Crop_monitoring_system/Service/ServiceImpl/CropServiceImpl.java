@@ -97,11 +97,9 @@ public class CropServiceImpl implements CropService {
             MonitoringLogEntity monitoringLogEntity = monitorRepo.findById(cropDto.getLogId())
                     .orElseThrow(() -> new DataPersistException("Log not found"));
 
-            // Associate them with the crop
             crop.setField(fieldEntity);
             crop.setLog(monitoringLogEntity);
 
-            // If you are unsure about transactional context, explicitly save:
             cropRepo.save(crop);
 
         }
