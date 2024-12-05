@@ -29,7 +29,7 @@ public class FieldEntity implements SuperEntity{
     private String fieldName;
 
     @Column(name = "field_location")
-    private Point location;//Point Data type useful for applications that need to work with geographic data such as mapping, location tracking, and spatial analysis.
+    private Point location;
 
     @Column(name = "field_extentSize", nullable = false)
     private Double extentSize;
@@ -42,7 +42,7 @@ public class FieldEntity implements SuperEntity{
 
 
     @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<CropEntity> crops; // Crops associated with this field
+    private List<CropEntity> crops;
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
@@ -51,7 +51,7 @@ public class FieldEntity implements SuperEntity{
             inverseJoinColumns = @JoinColumn(name = "staff_id")
     )
     @JsonManagedReference
-    private List<StaffEntity> staff= new ArrayList<>(); // Staff assigned to this field
+    private List<StaffEntity> staff= new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "logId",nullable = false)
     private MonitoringLogEntity log;

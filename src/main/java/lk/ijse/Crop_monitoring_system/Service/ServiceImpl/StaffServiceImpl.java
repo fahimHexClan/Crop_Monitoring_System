@@ -45,17 +45,12 @@ public class StaffServiceImpl implements StaffService {
                         .orElseThrow(() -> new DataPersistException("Field not found with ID: " + fieldDto.getFieldId()));
                 fields.add(field);
 
-                // Add staff to the field's staff list to maintain bidirectional relationship
                 if (!field.getStaff().contains(staff)) {
                     field.getStaff().add(staff);
                 }
             }
         }
-
         staff.setFields(fields);
-
-
-        // Save staff entity
         StaffEntity savedStaff = staffRepo.save(staff);
         if (savedStaff == null) {
             throw new DataPersistException("Staff not saved");
@@ -82,11 +77,10 @@ public class StaffServiceImpl implements StaffService {
         List<StaffEntity> staffEntities = staffRepo.findAll();
         List<Long> staffIds = new ArrayList<>();
         for (StaffEntity staffEntity : staffEntities) {
-            staffIds.add(staffEntity.getId()); // Assuming FieldEntity has a getFieldId method
+            staffIds.add(staffEntity.getId());
         }
         return staffIds;
     }
-
 
     @Override
     public void deleteStaff(Long staffId) {
@@ -104,7 +98,7 @@ public class StaffServiceImpl implements StaffService {
                     throw new DataPersistException("Staff not found with ID: " + staffCode);
                 } else {
                     StaffEntity staff = findStaff.get();
-                    // Update basic fields
+
                     staff.setFirstName(updatedStaffDTO.getFirstName());
                     staff.setLastName(updatedStaffDTO.getLastName());
                     staff.setDesignation(updatedStaffDTO.getDesignation());
@@ -120,7 +114,6 @@ public class StaffServiceImpl implements StaffService {
                     staff.setEmail(updatedStaffDTO.getEmail());
                     staff.setRole(updatedStaffDTO.getRole());
 
-                    // Update Many-to-Many relationship with Fields
                     List<FieldEntity> fields = new ArrayList<>();
                     if (updatedStaffDTO.getFields() != null) {
                         for (FieldDTO fieldDto : updatedStaffDTO.getFields()) {

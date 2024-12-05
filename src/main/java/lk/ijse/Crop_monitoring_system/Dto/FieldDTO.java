@@ -18,11 +18,11 @@ import java.util.List;
 public class FieldDTO implements FieldStatus {
     private Long fieldId;
     private String fieldName;
-    private Point fieldLocation;  // Instead of String
+    private Point fieldLocation;
     private Double extentSize;
     private String fieldImage1;
     private String fieldImage2;
-    private List<CropDTO> crops;// Crops associated with this field
-    private List<StaffDTO> staff; // Staff assigned to t
+    private List<CropDTO> crops;
+    private List<StaffDTO> staff;
     private Long logId;
 }

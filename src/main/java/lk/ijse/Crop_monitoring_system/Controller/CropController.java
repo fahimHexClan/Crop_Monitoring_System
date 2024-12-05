@@ -21,17 +21,9 @@ public class CropController {
     @Autowired
     private CropService cropService;
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 
-    public ResponseEntity<Void> saveCrop(@RequestParam("cropCode") Long cropCode,
-                                         @RequestParam("commonName") String commonName,
-                                         @RequestParam("scientificName") String scientificName,
-                                         @RequestParam("cropImage") MultipartFile cropImage,
-                                         @RequestParam("category") String category,
-                                         @RequestParam("cropSeason") String season,
-                                         @RequestParam("fieldId") Long fieldId,
-                                         @RequestParam("logId") Long logId) {
+    public ResponseEntity<Void> saveCrop(@RequestParam("cropCode") Long cropCode, @RequestParam("commonName") String commonName, @RequestParam("scientificName") String scientificName, @RequestParam("cropImage") MultipartFile cropImage, @RequestParam("category") String category, @RequestParam("cropSeason") String season, @RequestParam("fieldId") Long fieldId, @RequestParam("logId") Long logId) {
         try {
             String base64ProPic = "";
 
@@ -86,15 +78,7 @@ public class CropController {
     }
 
     @PutMapping(value = "/{cropId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Void> updateCrop(
-                                           @PathVariable("cropId") Long cropCode,
-                                           @RequestParam("commonName") String commonName,
-                                           @RequestParam("scientificName") String scientificName,
-                                           @RequestParam("cropImage") MultipartFile cropImage,
-                                           @RequestParam("category") String category,
-                                           @RequestParam("cropSeason") String season,
-                                           @RequestParam("fieldId") Long fieldId,
-                                           @RequestParam("logId") Long logId) {
+    public ResponseEntity<Void> updateCrop(@PathVariable("cropId") Long cropCode, @RequestParam("commonName") String commonName, @RequestParam("scientificName") String scientificName, @RequestParam("cropImage") MultipartFile cropImage, @RequestParam("category") String category, @RequestParam("cropSeason") String season, @RequestParam("fieldId") Long fieldId, @RequestParam("logId") Long logId) {
         try {
             String base64ProPic = "";
             if (cropImage != null) {
@@ -111,7 +95,7 @@ public class CropController {
             cropDto.setFieldId(fieldId);
             cropDto.setLogId(logId);
 
-           cropService.updateCrop(cropCode, cropDto);
+            cropService.updateCrop(cropCode, cropDto);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (DataPersistException e) {
             e.printStackTrace();
@@ -121,6 +105,7 @@ public class CropController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping(value = "/ids", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Long>> getAllCropIds() {
         try {

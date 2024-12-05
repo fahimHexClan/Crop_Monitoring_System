@@ -10,7 +10,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface EquipmentMapper {
 
-
     @Mapping(source = "assignedStaff.id", target = "assignedStaff")
     @Mapping(source = "assignedField.fieldId", target = "assignedField")
     EquipmentDTO entityToDTO(EquipmentEntity equipmentEntity);

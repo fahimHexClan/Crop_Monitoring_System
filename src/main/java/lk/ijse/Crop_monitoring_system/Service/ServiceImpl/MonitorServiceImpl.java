@@ -61,13 +61,9 @@ public class MonitorServiceImpl implements MonitorService {
         if (!foundLogs.isPresent()) {
             throw new DataPersistException("Logs not found");
         }else {
-
             foundLogs.get().setLogDate(updatedLogsDTO.getLogDate());
             foundLogs.get().setLogDetails(updatedLogsDTO.getLogDetails());
             foundLogs.get().setObservedImage(updatedLogsDTO.getObservedImage());
-
-
-
     }
     }
 
@@ -76,11 +72,10 @@ public class MonitorServiceImpl implements MonitorService {
         List<MonitoringLogEntity> monitoringLogEntities = moniteringLogDao.findAll();
         List<Long> logIds = new ArrayList<>();
         for (MonitoringLogEntity monitoringLogEntity : monitoringLogEntities) {
-            logIds.add(monitoringLogEntity.getId()); // Assuming FieldEntity has a getFieldId method
+            logIds.add(monitoringLogEntity.getId());
         }
         return logIds;
     }
-
 
     @Override
     public List<MonitoringLogDTO> getAllLogs() {

@@ -52,9 +52,7 @@ public class AuthUserController {
         try {
             byte[] bytesProPic = profilePic.getBytes();
             base64ProPic = AppUtill.ImageToBase64(bytesProPic);
-            //UserId generate
 
-            //Build the Object
             UserDTO buildUserDTO = new UserDTO();
             buildUserDTO.setUserId(userId);
             buildUserDTO.setFirstName(firstName);

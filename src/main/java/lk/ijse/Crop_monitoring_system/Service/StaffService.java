@@ -17,6 +17,5 @@ public interface StaffService {
 
     List<StaffDTO> getAllStaff();
 
-
     List<Long> getAllStaffIds();
 }

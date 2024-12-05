@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
             throw new DataPersistException("User not saved");
         }
     }
-
     @Override
     public List<UserDTO> getAllUsers() {
         List<UserEntity> allUsers = userDao.findAll();

@@ -35,18 +35,14 @@ public class FieldServiceImpl implements FieldServise {
     public void SaveField(FieldDTO fieldDto) {
         FieldEntity field = mapping.toFieldEntity(fieldDto);
 
-        // Handle Many-to-Many relationship with Staffs
         List<StaffEntity> staffs = new ArrayList<>();
         if (fieldDto.getStaff() != null) {
             for (StaffDTO staffDto : fieldDto.getStaff()) {
-                StaffEntity staff = staffRepo.findById(staffDto.getId())
-                        .orElseThrow(() -> new DataPersistException("Staff not found with ID: " + staffDto.getId()));
+                StaffEntity staff = staffRepo.findById(staffDto.getId()).orElseThrow(() -> new DataPersistException("Staff not found with ID: " + staffDto.getId()));
                 staffs.add(staff);
             }
         }
         field.setStaff(staffs);
-
-        // Save Field entity
         FieldEntity savedField = fieldRepo.save(field);
         if (savedField == null) {
             throw new DataPersistException("Field not saved");
@@ -56,7 +52,6 @@ public class FieldServiceImpl implements FieldServise {
 
     @Override
     public void updateField(Long fieldCode, FieldDTO updatedFieldDTO) {
-        // Fetch Field by ID and update its details
         Optional<FieldEntity> findField = fieldRepo.findById(fieldCode);
         if (!findField.isPresent()) {
             throw new DataPersistException("Field not found");
@@ -68,36 +63,30 @@ public class FieldServiceImpl implements FieldServise {
             field.setFieldImage1(updatedFieldDTO.getFieldImage1());
             field.setFieldImage2(updatedFieldDTO.getFieldImage2());
 
-            // Update Many-to-Many relationship with Staffs
             List<StaffEntity> staffs = new ArrayList<>();
             if (updatedFieldDTO.getStaff() != null) {
                 for (StaffDTO staffDto : updatedFieldDTO.getStaff()) {
-                    StaffEntity staff = staffRepo.findById(staffDto.getId())
-                            .orElseThrow(() -> new DataPersistException("Staff not found with ID: " + staffDto.getId()));
+                    StaffEntity staff = staffRepo.findById(staffDto.getId()).orElseThrow(() -> new DataPersistException("Staff not found with ID: " + staffDto.getId()));
                     staffs.add(staff);
                 }
             }
             field.setStaff(staffs);
-
-            // Save updated Field entity
             fieldRepo.save(field);
         }
     }
-        @Override
+
+    @Override
     public void deletefield(Long fieldCode) {
-        // Check if the Field exists before deletion
         Optional<FieldEntity> foundField = fieldRepo.findById(fieldCode);
         if (!foundField.isPresent()) {
             throw new DataPersistException("Field not found");
         } else {
             fieldRepo.deleteById(fieldCode);
         }
-
     }
 
     @Override
     public FieldStatus getField(Long fieldCode) {
-        // Fetch Field by ID and map to FieldDto
         if (fieldRepo.existsById(fieldCode)) {
             FieldEntity selectedField = fieldRepo.getReferenceById(fieldCode);
             return mapping.toFieldDTO(selectedField);
@@ -105,10 +94,6 @@ public class FieldServiceImpl implements FieldServise {
             return new SelectedErrorStatus(2, "Selected Field not found");
         }
     }
-
-
-
-
     @Override
     public List<FieldDTO> getAllField() {
         return mapping.asFieldDTOList(fieldRepo.findAll());
@@ -119,7 +104,7 @@ public class FieldServiceImpl implements FieldServise {
         List<FieldEntity> fieldEntities = fieldRepo.findAll();
         List<Long> fieldIds = new ArrayList<>();
         for (FieldEntity fieldEntity : fieldEntities) {
-            fieldIds.add(fieldEntity.getFieldId()); // Assuming FieldEntity has a getFieldId method
+            fieldIds.add(fieldEntity.getFieldId());
         }
         return fieldIds;
     }

@@ -26,7 +26,7 @@ public class EquipmentEntity implements SuperEntity{
     @Column(name = "Equipment_Type", nullable = false)
     private EquipmentType type;
 
-    @Enumerated(EnumType.STRING)//When persisting these enum values into a database, JPA needs to know how to store and retrieve them
+    @Enumerated(EnumType.STRING)
     @Column(name = "Equipment_Status", nullable = false)
     private EqStatus status;
 

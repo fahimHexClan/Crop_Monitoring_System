@@ -26,7 +26,7 @@ public class CropEntity implements SuperEntity{
     @Column(name = "Crop_image",columnDefinition = "LONGTEXT")
     private String  cropImage;
 
-    @Column(name = "Crop_category", nullable = false)// using null false mean-should always have a value
+    @Column(name = "Crop_category", nullable = false)
     private String category;
 
     @Column(name = "season", nullable = false)

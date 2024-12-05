@@ -31,11 +31,13 @@ public class MonitoringLogEntity implements SuperEntity {
 
     @Column(name = "Moniter_LogImage",columnDefinition = "LONGTEXT")
     private String observedImage;
-    //byte=Used to store  image ,pdf,word documents,audio ,video in databse
+
     @OneToMany(mappedBy = "log")
     private List<CropEntity> crops;
+
     @OneToMany(mappedBy = "log")
     private List<StaffEntity> staff;
+
     @OneToMany(mappedBy = "log")
     private List<FieldEntity> fields;
 

@@ -77,7 +77,7 @@ public class StaffEntity implements SuperEntity{
     private List<FieldEntity> fields;
 
     @OneToMany(mappedBy = "staff", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<VehicleEntity> vehicles; //  Vehicles assigned to the staff member
+    private List<VehicleEntity> vehicles;
 
     @OneToMany(mappedBy = "assignedStaff",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EquipmentEntity> equipments;

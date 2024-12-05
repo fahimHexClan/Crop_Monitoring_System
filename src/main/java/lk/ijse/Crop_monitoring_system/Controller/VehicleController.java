@@ -26,18 +26,15 @@ public class VehicleController {
             String id = vehicleService.addVehicle(vehicleDto);
             if (id.equals("00")) {//VarList eke aapu data tika thama mekata dala thiyanne
 
-                return new ResponseEntity<StandardResponse>(new StandardResponse(201, id + "Vehicle Succesfully saved  : ", id), HttpStatus.CREATED//data ekak aluthen create karama create kiyala return karanawa
-                );//return type eka ResponseEntity dila genaric eke api create karapu StandardResponseclass eka dala
+                return new ResponseEntity<StandardResponse>(new StandardResponse(201, id + "Vehicle Succesfully saved  : ", id), HttpStatus.CREATED);//return type eka ResponseEntity dila genaric eke api create karapu StandardResponseclass eka dala
                 // a class eke attributes tika fill karala okkoma create unama created kiyana eka danawa
             } else if (id.equals("06")) {
-                return new ResponseEntity<StandardResponse>(new StandardResponse(401, id + "Vehicle Not saved  : ", id), HttpStatus.BAD_REQUEST//data ekak aluthen create karama create kiyala return karanawa
-                );
+                return new ResponseEntity<StandardResponse>(new StandardResponse(401, id + "Vehicle Not saved  : ", id), HttpStatus.BAD_REQUEST);
             } else {
-                return new ResponseEntity<StandardResponse>(new StandardResponse(501, id + " Error  : ", id), HttpStatus.BAD_REQUEST//data ekak aluthen create karama create kiyala return karanawa
-                );
+                return new ResponseEntity<StandardResponse>(new StandardResponse(501, id + " Error  : ", id), HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
-            return new ResponseEntity<StandardResponse>(new StandardResponse(601, " Error  : ", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);//data ekak aluthen create karama create kiyala return karanawa
+            return new ResponseEntity<StandardResponse>(new StandardResponse(601, " Error  : ", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -47,20 +44,17 @@ public class VehicleController {
 
         try {
             String id = vehicleService.updateVehicle(vehicleDto);
-            if (id.equals("00")) {//VarList eke aapu data tika thama mekata dala thiyanne
+            if (id.equals("00")) {
 
-                return new ResponseEntity<StandardResponse>(new StandardResponse(201, id + "Vehicle Succesfully update  : ", id), HttpStatus.CREATED//data ekak aluthen create karama create kiyala return karanawa
-                );//return type eka ResponseEntity dila genaric eke api create karapu StandardResponseclass eka dala
-                // a class eke attributes tika fill karala okkoma create unama created kiyana eka danawa
+                return new ResponseEntity<StandardResponse>(new StandardResponse(201, id + "Vehicle Succesfully update  : ", id), HttpStatus.CREATED);
+
             } else if (id.equals("01")) {
-                return new ResponseEntity<StandardResponse>(new StandardResponse(401, id + "Vehicle Not update  : ", id), HttpStatus.BAD_REQUEST//data ekak aluthen create karama create kiyala return karanawa
-                );
+                return new ResponseEntity<StandardResponse>(new StandardResponse(401, id + "Vehicle Not update  : ", id), HttpStatus.BAD_REQUEST);
             } else {
-                return new ResponseEntity<StandardResponse>(new StandardResponse(501, id + " Error  : ", id), HttpStatus.BAD_REQUEST//data ekak aluthen create karama create kiyala return karanawa
-                );
+                return new ResponseEntity<StandardResponse>(new StandardResponse(501, id + " Error  : ", id), HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
-            return new ResponseEntity<StandardResponse>(new StandardResponse(601, " Error  : ", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);//data ekak aluthen create karama create kiyala return karanawa
+            return new ResponseEntity<StandardResponse>(new StandardResponse(601, " Error  : ", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -71,7 +65,7 @@ public class VehicleController {
             return new ResponseEntity<StandardResponse>(new StandardResponse(200, " Succesfully get  ", allVehicles), HttpStatus.ACCEPTED//data ekak aluthen get karama ok kiyala return karanawa
             );
 
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<StandardResponse>(new StandardResponse(601, " Error  : ", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);//data ekak aluthen create karama create kiyala return karanawa
 
         }
@@ -81,58 +75,50 @@ public class VehicleController {
     @GetMapping(path = "/Search_Vehicle_By_Id/{vehicleId}")
     public ResponseEntity<StandardResponse> findVehicleByVehicleId(@PathVariable("vehicleId") Long vehicleId) {
         try {
-            VehicleDto vehicleDto= vehicleService.getVehicleById(vehicleId);
+            VehicleDto vehicleDto = vehicleService.getVehicleById(vehicleId);
             if (vehicleDto != null) {
-                return new ResponseEntity<StandardResponse>(new StandardResponse(200, " Succesfully get by Id  ", vehicleDto), HttpStatus.ACCEPTED);//data ekak aluthen get karama ok kiyala return karanawa
+                return new ResponseEntity<StandardResponse>(new StandardResponse(200, " Succesfully get by Id  ", vehicleDto), HttpStatus.ACCEPTED);
 
-            }else {
-                return new ResponseEntity<StandardResponse>(new StandardResponse(600, vehicleId + "  No Vehicle is avilable on this id  : ", vehicleId), HttpStatus.BAD_REQUEST);//data ekak aluthen create karama create kiyala return karanawa
+            } else {
+                return new ResponseEntity<StandardResponse>(new StandardResponse(600, vehicleId + "  No Vehicle is avilable on this id  : ", vehicleId), HttpStatus.BAD_REQUEST);
 
 
             }
-        }catch (Exception e){
-            return new ResponseEntity<StandardResponse>(new StandardResponse(601, " Error  : ", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);//data ekak aluthen create karama create kiyala return karanawa
+        } catch (Exception e) {
+            return new ResponseEntity<StandardResponse>(new StandardResponse(601, " Error  : ", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
     }
 
     @DeleteMapping("/deleteVehicle/{vehicleID}")
     public ResponseEntity<StandardResponse> deleteVehicle(@PathVariable("vehicleID") Long vehicleID) {
-    try {
-        String res = vehicleService.deleteVehicle(vehicleID);
-        if (res.equals("00")) {
-            return new ResponseEntity<StandardResponse>(new StandardResponse(200, " Succesfully delete by Id  ", vehicleID), HttpStatus.ACCEPTED);//data ekak aluthen get karama ok kiyala return karanawa
+        try {
+            String res = vehicleService.deleteVehicle(vehicleID);
+            if (res.equals("00")) {
+                return new ResponseEntity<StandardResponse>(new StandardResponse(200, " Succesfully delete by Id  ", vehicleID), HttpStatus.ACCEPTED);
 
-        } else {
-            return new ResponseEntity<StandardResponse>(new StandardResponse(600, vehicleID + "  No Vehicle is avilable on this id  : ", vehicleID), HttpStatus.BAD_REQUEST);//data ekak aluthen create karama create kiyala return karanawa
+            } else {
+                return new ResponseEntity<StandardResponse>(new StandardResponse(600, vehicleID + "  No Vehicle is avilable on this id  : ", vehicleID), HttpStatus.BAD_REQUEST);
 
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<StandardResponse>(new StandardResponse(601, " Error  : ", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }catch (Exception e){
-        return new ResponseEntity<StandardResponse>(new StandardResponse(601, " Error  : ", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);//data ekak aluthen create karama create kiyala return karanawa
     }
-    }
+
     @GetMapping(path = "/ids", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StandardResponse> getAllVehicleIds() {
         try {
             List<Long> vehicleIds = vehicleService.getAllVehicleIds();
-            return new ResponseEntity<>(
-                    new StandardResponse(200, "Successfully Retrieved Vehicle IDs", vehicleIds),
-                    HttpStatus.OK
-            );
+            return new ResponseEntity<>(new StandardResponse(200, "Successfully Retrieved Vehicle IDs", vehicleIds), HttpStatus.OK);
         } catch (DataPersistException e) {
-            return new ResponseEntity<>(
-                    new StandardResponse(400, "Failed to Retrieve Vehicle IDs", null),
-                    HttpStatus.BAD_REQUEST
-            );
+            return new ResponseEntity<>(new StandardResponse(400, "Failed to Retrieve Vehicle IDs", null), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            return new ResponseEntity<>(
-                    new StandardResponse(500, "Internal Server Error", null),
-                    HttpStatus.INTERNAL_SERVER_ERROR
-            );
+            return new ResponseEntity<>(new StandardResponse(500, "Internal Server Error", null), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    }
+}
 
 
 

@@ -43,14 +43,11 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // Invalid role
         }
 
-        // profilePic ----> Base64
         String base64ProPic = "";
         try {
             byte [] bytesProPic = profilePic.getBytes();
             base64ProPic = AppUtill.ImageToBase64(bytesProPic);
-            //UserId generate
 
-            //Build the Object
             UserDTO buildUserDTO = new UserDTO();
             buildUserDTO.setUserId(userId);
             buildUserDTO.setFirstName(firstName);
@@ -77,7 +74,6 @@ public class UserController {
     @DeleteMapping(value = "/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable("userId") String userId){
         try {
-
             userService.deleteUser(userId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (DataPersistException e){
@@ -103,7 +99,6 @@ public class UserController {
             @RequestParam("role") Role role,
             @PathVariable ("userId") String userId
     ){
-        // profilePic ----> Base64
         String base64ProPic = "";
         try {
             byte [] bytesProPic = profilePic.getBytes();

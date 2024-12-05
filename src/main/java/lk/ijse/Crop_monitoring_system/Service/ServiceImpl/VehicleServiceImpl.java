@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service//meka danne service layer eka identify karaganna
-@Transactional //data 2 tables walta eka paara yawanna
+@Service
+@Transactional
 
 public class VehicleServiceImpl implements VehicleService {
     @Autowired
@@ -81,7 +81,7 @@ public class VehicleServiceImpl implements VehicleService {
         try {
             List<VehicleEntity> vehicles = vehicleRepo.findAll();
             return vehicles.stream()
-                    .map(VehicleEntity::getId) // Assuming 'getId()' exists in VehicleEntity
+                    .map(VehicleEntity::getId)
                     .collect(Collectors.toList());
         } catch (Exception e) {
             throw new DataPersistException("Failed to retrieve vehicle IDs", e);

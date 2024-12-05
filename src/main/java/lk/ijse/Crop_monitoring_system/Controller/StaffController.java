@@ -19,20 +19,17 @@ public class StaffController {
     @Autowired
     private StaffService staffService;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 
     public ResponseEntity<Void> saveStaff(@RequestBody StaffDTO staffDto) {
         try {
             //System.out.println(staffDto);
             staffService.saveStaff(staffDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
-        }catch (DataPersistException e){
+        } catch (DataPersistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -54,36 +51,39 @@ public class StaffController {
             return new ResponseEntity<>("Internal server error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @DeleteMapping(value = "/{staffId}")
-    public ResponseEntity<Void> deleteStaff(@PathVariable ("staffId") Long staffId){
+    public ResponseEntity<Void> deleteStaff(@PathVariable("staffId") Long staffId) {
         try {
             staffService.deleteStaff(staffId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch (DataPersistException e){
+        } catch (DataPersistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping(value = "/{staffId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public StaffStatus getSelectedStaff(@PathVariable ("staffId") Long staffId){
+    public StaffStatus getSelectedStaff(@PathVariable("staffId") Long staffId) {
         return staffService.getStaff(staffId);
     }
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<StaffDTO> getALlStaff(){
+    public List<StaffDTO> getALlStaff() {
         return staffService.getAllStaff();
     }
 
-   @GetMapping(value = "/ids")
+    @GetMapping(value = "/ids")
     public ResponseEntity<List<Long>> getAllStaffIds() {
-       try {
-           List<Long> staffIds = staffService.getAllStaffIds();
-           return new ResponseEntity<>(staffIds, HttpStatus.OK);
-       } catch (Exception e) {
-           e.printStackTrace();
-           return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-       }
-   }
+        try {
+            List<Long> staffIds = staffService.getAllStaffIds();
+            return new ResponseEntity<>(staffIds, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
