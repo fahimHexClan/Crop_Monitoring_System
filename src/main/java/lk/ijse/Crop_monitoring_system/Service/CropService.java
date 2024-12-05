@@ -18,6 +18,7 @@ public interface CropService {
 
     List<CropDTO> getAllCrop();
 
+    List<Long> getAllCropIds();
 }
 
 

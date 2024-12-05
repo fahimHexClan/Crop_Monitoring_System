@@ -14,4 +14,6 @@ public interface EquipmentService {
     EquipmentDTO getEquipmentById(Long equipmentId);
 
     String deleteEquipment(Long equipmentID);
+
+    List<Long> getAllEquipmentIds();
 }

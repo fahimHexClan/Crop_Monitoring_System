@@ -2,9 +2,11 @@ package lk.ijse.Crop_monitoring_system.Controller;
 
 import lk.ijse.Crop_monitoring_system.Dto.EquipmentDTO;
 import lk.ijse.Crop_monitoring_system.Dto.ResponseDto.StandardResponse;
+import lk.ijse.Crop_monitoring_system.Exception.DataPersistException;
 import lk.ijse.Crop_monitoring_system.Service.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -108,6 +110,26 @@ public class EquipmentController {
             }
         } catch (Exception e) {
             return new ResponseEntity<StandardResponse>(new StandardResponse(601, " Error  : ", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);//data ekak aluthen create karama create kiyala return karanawa
+        }
+    }
+    @GetMapping(path = "/ids", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<StandardResponse> getAllEquipmentIds() {
+        try {
+            List<Long> equipmentIds = equipmentService.getAllEquipmentIds();
+            return new ResponseEntity<>(
+                    new StandardResponse(200, "Successfully Retrieved Equipment IDs", equipmentIds),
+                    HttpStatus.OK
+            );
+        } catch (DataPersistException e) {
+            return new ResponseEntity<>(
+                    new StandardResponse(400, "Failed to Retrieve Equipment IDs", null),
+                    HttpStatus.BAD_REQUEST
+            );
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    new StandardResponse(500, "Internal Server Error", null),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
     }
 

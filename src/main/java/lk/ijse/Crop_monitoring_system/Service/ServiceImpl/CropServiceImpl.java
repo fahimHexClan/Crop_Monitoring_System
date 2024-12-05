@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -50,6 +51,18 @@ public class CropServiceImpl implements CropService {
     }
 
     @Override
+    public List<Long> getAllCropIds() {
+        try {
+            List<CropEntity> crops = cropRepo.findAll();
+            return crops.stream()
+                    .map(CropEntity::getId) // Assuming 'id' is the field name for Crop ID
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new DataPersistException("Failed to retrieve crop IDs", e);
+        }
+    }
+
+    @Override
     public void deleteCrop(Long cropId) {
         Optional<CropEntity> foundCrop = cropRepo.findById(cropId);
         if (!foundCrop.isPresent()) {
@@ -72,4 +85,5 @@ public class CropServiceImpl implements CropService {
             findNote.get().setScientificName(cropDto.getScientificName());
         }
     }
+
     }

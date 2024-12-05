@@ -14,4 +14,6 @@ public interface VehicleService {
     VehicleDto getVehicleById(Long vehicleId);
 
     String deleteVehicle(Long vehicleID);
+
+    List<Long> getAllVehicleIds();
 }

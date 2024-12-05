@@ -5,6 +5,7 @@ import lk.ijse.Crop_monitoring_system.Dto.EquipmentDTO;
 import lk.ijse.Crop_monitoring_system.Entity.EquipmentEntity;
 import lk.ijse.Crop_monitoring_system.Entity.FieldEntity;
 import lk.ijse.Crop_monitoring_system.Entity.StaffEntity;
+import lk.ijse.Crop_monitoring_system.Exception.DataPersistException;
 import lk.ijse.Crop_monitoring_system.Repository.EquipmentRepo;
 import lk.ijse.Crop_monitoring_system.Repository.FieldRepo;
 import lk.ijse.Crop_monitoring_system.Repository.StaffRepo;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -136,6 +138,18 @@ public class EquipmentImpl implements EquipmentService {
             return VarList.RSP_SUCCESS;
         } else {
             return VarList.RSP_DUPLICATED;
+        }
+    }
+
+    @Override
+    public List<Long> getAllEquipmentIds() {
+        try {
+            List<EquipmentEntity> equipments = equipmentRepo.findAll();
+            return equipments.stream()
+                    .map(EquipmentEntity::getId)  // Assuming 'getId()' exists in EquipmentEntity
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new DataPersistException("Failed to retrieve equipment IDs", e);
         }
     }
 }

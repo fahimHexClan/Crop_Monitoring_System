@@ -2,9 +2,11 @@ package lk.ijse.Crop_monitoring_system.Controller;
 
 import lk.ijse.Crop_monitoring_system.Dto.ResponseDto.StandardResponse;
 import lk.ijse.Crop_monitoring_system.Dto.VehicleDto;
+import lk.ijse.Crop_monitoring_system.Exception.DataPersistException;
 import lk.ijse.Crop_monitoring_system.Service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -108,6 +110,26 @@ public class VehicleController {
     }catch (Exception e){
         return new ResponseEntity<StandardResponse>(new StandardResponse(601, " Error  : ", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);//data ekak aluthen create karama create kiyala return karanawa
     }
+    }
+    @GetMapping(path = "/ids", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<StandardResponse> getAllVehicleIds() {
+        try {
+            List<Long> vehicleIds = vehicleService.getAllVehicleIds();
+            return new ResponseEntity<>(
+                    new StandardResponse(200, "Successfully Retrieved Vehicle IDs", vehicleIds),
+                    HttpStatus.OK
+            );
+        } catch (DataPersistException e) {
+            return new ResponseEntity<>(
+                    new StandardResponse(400, "Failed to Retrieve Vehicle IDs", null),
+                    HttpStatus.BAD_REQUEST
+            );
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    new StandardResponse(500, "Internal Server Error", null),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     }

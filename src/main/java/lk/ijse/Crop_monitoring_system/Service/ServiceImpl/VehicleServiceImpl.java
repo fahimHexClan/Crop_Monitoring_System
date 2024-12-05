@@ -3,6 +3,7 @@ package lk.ijse.Crop_monitoring_system.Service.ServiceImpl;
 import jakarta.transaction.Transactional;
 import lk.ijse.Crop_monitoring_system.Dto.VehicleDto;
 import lk.ijse.Crop_monitoring_system.Entity.VehicleEntity;
+import lk.ijse.Crop_monitoring_system.Exception.DataPersistException;
 import lk.ijse.Crop_monitoring_system.Repository.VehicleRepo;
 import lk.ijse.Crop_monitoring_system.Service.VehicleService;
 import lk.ijse.Crop_monitoring_system.util.VarList;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service//meka danne service layer eka identify karaganna
 @Transactional //data 2 tables walta eka paara yawanna
@@ -71,6 +73,18 @@ public class VehicleServiceImpl implements VehicleService {
             return VarList.RSP_SUCCESS;
         } else {
             return VarList.RSP_DUPLICATED;
+        }
+    }
+
+    @Override
+    public List<Long> getAllVehicleIds() {
+        try {
+            List<VehicleEntity> vehicles = vehicleRepo.findAll();
+            return vehicles.stream()
+                    .map(VehicleEntity::getId) // Assuming 'getId()' exists in VehicleEntity
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new DataPersistException("Failed to retrieve vehicle IDs", e);
         }
     }
 }
