@@ -5,9 +5,11 @@ import lk.ijse.Crop_monitoring_system.Dto.FieldDTO;
 import lk.ijse.Crop_monitoring_system.Dto.StaffDTO;
 import lk.ijse.Crop_monitoring_system.Dto.Status.FieldStatus;
 import lk.ijse.Crop_monitoring_system.Entity.FieldEntity;
+import lk.ijse.Crop_monitoring_system.Entity.MonitoringLogEntity;
 import lk.ijse.Crop_monitoring_system.Entity.StaffEntity;
 import lk.ijse.Crop_monitoring_system.Exception.DataPersistException;
 import lk.ijse.Crop_monitoring_system.Repository.FieldRepo;
+import lk.ijse.Crop_monitoring_system.Repository.MonitorRepo;
 import lk.ijse.Crop_monitoring_system.Repository.StaffRepo;
 import lk.ijse.Crop_monitoring_system.Service.FieldServise;
 import lk.ijse.Crop_monitoring_system.util.Mapping;
@@ -28,6 +30,8 @@ public class FieldServiceImpl implements FieldServise {
     private Mapping mapping;
     @Autowired
     private StaffRepo staffRepo;
+    @Autowired
+    private MonitorRepo monitorRepo;
 
 
     @Override
@@ -71,6 +75,17 @@ public class FieldServiceImpl implements FieldServise {
                 }
             }
             field.setStaff(staffs);
+
+            if (updatedFieldDTO.getLogId() != null) {
+                MonitoringLogEntity monitoringLogEntity = monitorRepo.findById(updatedFieldDTO.getLogId())
+                        .orElseThrow(() -> new DataPersistException("Log not found with ID: " + updatedFieldDTO.getLogId()));
+
+                field.setLog(monitoringLogEntity);
+            }
+
+
+
+
             fieldRepo.save(field);
         }
     }

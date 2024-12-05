@@ -27,7 +27,8 @@ public class StaffServiceImpl implements StaffService {
     private StaffRepo staffRepo;
     @Autowired
     private FieldRepo fieldRepo;
-
+@Autowired
+private MonitorRepo monitorRepo;
 
     @Autowired
     private Mapping modelMapper1;
@@ -123,7 +124,11 @@ public class StaffServiceImpl implements StaffService {
                         }
                     }
                     staff.setFields(fields);
-
+                    if (updatedStaffDTO.getLogId() != null) {
+                        MonitoringLogEntity monitoringLogEntity = monitorRepo.findById(updatedStaffDTO.getLogId())
+                                .orElseThrow(() -> new DataPersistException("Log not found with ID: " + updatedStaffDTO.getLogId()));
+                        staff.setLog(monitoringLogEntity);
+                    }
 
         }}}
 
